@@ -1,0 +1,35 @@
+system:
+  port: 18888
+  context-path: /steins/go
+  db-type: mysql
+  oss-type: aliyun
+
+
+mysql:
+  path: 127.0.0.1
+  port: 3306
+  username: root
+  password: 123456
+  db-name: go_steins
+  max-idle-conns: 10
+  max-open-conns: 40
+
+
+
+sqlite:
+  path: ./
+  port: ""
+  username: ""
+  password: ""
+  db-name: steins
+  max-idle-conns: 5
+  max-open-conns: 10
+
+pgsql:
+  path: ""
+  port: ""
+  username: ""
+  password: ""
+  db-name: ""
+  max-idle-conns: 10
+  max-open-conns: 40
