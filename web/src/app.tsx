@@ -17,7 +17,7 @@ export function rootContainer(container: React.ReactNode) {
                 locale={zhCN}
                 theme={{
                     token: {
-                        colorPrimary: "#8B5FBF"
+                        colorPrimary: "#71c4ef"
                     },
                 }}>
                     {container}

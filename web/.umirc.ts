@@ -11,7 +11,7 @@ if (process.env.UMI_ENV) {
 export default defineConfig({
   // base: "/aigc/",
   publicPath: process.env.NODE_ENV === "production" ? "./" : "/", // electron打包必备配置
-  title: "AI智能",
+  title: "gin-react-template",
   history: {
     type: process.env.HISTORY_MODE as ("browser" | "hash") || "browser"
   }, // electron打包必备配置
@@ -21,13 +21,12 @@ export default defineConfig({
   routes: [
     // { path: "/attachment", component: "./Attachment" },
     // { path: "/business_attachment", component: "./Attachment" },
-    // { path: "/agent", component: "./Agent" },
     // { path: "/login", component: "./Login", layout: false },
-    // { path: "/bid", component: "./BidDocument" },
     // { path: "/bid_audit", component: "./BidAudit" },
     //  { path: "/company_manage", component: "./BusinessManage" },
     // { path: "/agreement", component: "./Agreement", layout: false },
     // { path: "/viewer", component: "./FileViewer", layout: false },
+    {path: "/", component: "./init"},
     {
       path: "",
       routes: [
