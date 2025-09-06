@@ -11,3 +11,6 @@
 # 前端选型
 
 react + umijs + redux + framer-motion + tailwindcss
+
+umijs插件: 
+- umijs/openapi:自动生成接口代码

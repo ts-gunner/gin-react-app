@@ -9,7 +9,7 @@ type Mysql struct {
 
 func (m *Mysql) Dsn() string {
 	return fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local)",
+		"%s:%s@tcp(%s:%s)/%s?charset=utf8)",
 		m.Username, m.Password, m.Path, m.Port, m.DbName,
 	)
 }

@@ -5,9 +5,13 @@ import (
 	"github.com/ts-gunner/steins-backend-go/global"
 )
 
+// @title Gin Swagger Demo API
+// @version 1.0
+// @description This is a sample server for Gin Swagger.
 func main() {
 	initializeSystem()
 	core.RunServer()
+
 }
 
 func initializeSystem() {
@@ -17,4 +21,5 @@ func initializeSystem() {
 	if global.SBG_DB != nil {
 		core.RegisterTables() // 初始化表
 	}
+
 }

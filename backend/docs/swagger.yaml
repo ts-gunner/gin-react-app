@@ -1,0 +1,31 @@
+info:
+  contact: {}
+  description: This is a sample server for Gin Swagger.
+  title: Gin Swagger Demo API
+  version: "1.0"
+paths:
+  /api/v1/articles/{id}:
+    delete:
+      parameters:
+      - description: 文章ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 删除文章
+swagger: "2.0"

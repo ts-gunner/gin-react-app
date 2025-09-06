@@ -38,3 +38,15 @@
 | viper | github.com/spf13/viper | 读取配置文件，支持监听 |
 
 
+## 生成swagger文档
+
+`go install github.com/swaggo/swag/cmd/swag@latest`
+
+`swag init`
+
+访问文档： `http://{host}:{port}/{context_path}/swagger/index.html`
+
+生成接口文档的地址：`http://{host}:{port}/{context_path}/swagger/doc.json`
+
+前端使用umijs的openapi, 可以直接生成接口
+

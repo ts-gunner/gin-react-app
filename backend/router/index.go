@@ -6,8 +6,10 @@ var RouterSet = new(RouterGroup)
 
 type RouterGroup struct {
 	HomeRouter
+	InitRouter
 }
 
 var (
 	homeHandler = controller.AppHandler.HomeHandler
+	iniHandler  = controller.AppHandler.InitHandler
 )
