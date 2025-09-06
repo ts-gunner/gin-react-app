@@ -41,7 +41,7 @@ func (z Zap) Encoder() zapcore.Encoder {
 		StacktraceKey: "stacktrace",
 		LineEnding:    zapcore.DefaultLineEnding,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-			enc.AppendString(t.Format(time.DateTime))
+			enc.AppendString(z.Prefix + t.Format(time.DateTime))
 		},
 		EncodeLevel:    z.LevelEncoder(),
 		EncodeCaller:   zapcore.FullCallerEncoder, // 输出完整调用者信息位置

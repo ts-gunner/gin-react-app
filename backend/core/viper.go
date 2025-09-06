@@ -26,6 +26,8 @@ func InitViperConfig() *viper.Viper {
 		if err = v.Unmarshal(&global.SBG_CONFIG); err != nil {
 			fmt.Printf("动态更新失败: %s\n", err)
 		}
+		// 重新设置logger
+		global.LOGGER = InitZapLogger()
 	})
 	if err = v.Unmarshal(&global.SBG_CONFIG); err != nil {
 		panic(fmt.Errorf("解析配置文件失败: %w", err))

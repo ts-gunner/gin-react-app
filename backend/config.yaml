@@ -9,9 +9,9 @@ zap:
   prefix: "[github.com/ts-gunner/gin-react-app]"
   format: console
   director: log
-  encode-level: LowercaseColorLevelEncoder
+  encode-level: LowercaseLevelEncoder
   show-line: true
-  log-in-console: false
+  log-in-console: true
 
 mysql:
   path:
