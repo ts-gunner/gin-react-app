@@ -31,3 +31,7 @@ func OkWithMessage(message string, c *gin.Context) {
 func OkWithData(data interface{}, c *gin.Context) {
 	Result(http.StatusOK, DEFAULT_MSG, data, c)
 }
+
+func Fail(message string, c *gin.Context) {
+	Result(http.StatusBadRequest, message, nil, c)
+}

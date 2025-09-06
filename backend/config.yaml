@@ -4,6 +4,14 @@ system:
   db-type:
   oss-type: aliyun
 
+zap:
+  level: info
+  prefix: "[github.com/ts-gunner/gin-react-app]"
+  format: console
+  director: log
+  encode-level: LowercaseColorLevelEncoder
+  show-line: true
+  log-in-console: false
 
 mysql:
   path:

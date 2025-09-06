@@ -36,6 +36,7 @@
 |:----------:|:--------:|:-----------:|
 |    gin     |github.com/gin-gonic/gin |  go web框架   |
 | viper | github.com/spf13/viper | 读取配置文件，支持监听 |
+| zap  |  go.uber.org/zap |    日志框架     |
 
 
 ## 生成swagger文档
@@ -50,3 +51,39 @@
 
 前端使用umijs的openapi, 可以直接生成接口
 
+
+swagger的使用：
+
+main函数中添加注释
+```go
+
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+func main() {
+	initializeSystem()
+	core.RunServer()
+
+}
+```
+
+handler函数
+
+```go
+
+// @Summary      say hello world
+// @Description  return hello world json format content
+// @param       name query    string  true  "name"
+// @Tags         system
+// @Produce      json
+// @Router       /ping [get]
+func Ping(ctx *gin.Context) {
+    ctx.JSON(200, gin.H{
+    "message": fmt.Sprintf("Hello World!%s", ctx.Query("name")),
+    })
+}
+```

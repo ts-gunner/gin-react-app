@@ -5,5 +5,5 @@ type Application struct {
 	Mysql  Mysql  `mapstructure:"mysql" json:"mysql" yaml:"mysql"`    // mysql相关配置
 	Pgsql  Pgsql  `mapstructure:"pgsql" json:"pgsql" yaml:"pgsql"`    // postgresql 相关配置
 	Sqlite Sqlite `mapstructure:"sqlite" json:"sqlite" yaml:"sqlite"` // sqlite相关配置
-
+	Zap    Zap    `mapstructure:"zap" json:"zap" yaml:"zap"`          // 日志相关配置
 }

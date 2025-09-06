@@ -1,0 +1,3 @@
+2025-09-06 23:54:24	[34minfo[0m	E:/github_project/gin-react-app/backend/main.go:22	测试ing
+2025-09-06 23:54:50	[33mwarn[0m	E:/github_project/gin-react-app/backend/controller/home.go:12	获取APP信息  --> [warn]
+2025-09-06 23:54:50	[34minfo[0m	E:/github_project/gin-react-app/backend/controller/home.go:13	获取APP信息  --> [info]

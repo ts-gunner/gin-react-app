@@ -18,6 +18,8 @@ func initializeSystem() {
 	// 将配置文件设置到全局变量中
 	global.SBG_VP = core.InitViperConfig()
 	global.SBG_DB = core.Gorm()
+	global.LOGGER = core.InitZapLogger()
+	global.LOGGER.Info("测试ing")
 	if global.SBG_DB != nil {
 		core.RegisterTables() // 初始化表
 	}
