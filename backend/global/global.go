@@ -1,6 +1,7 @@
 package global
 
 import (
+	"github.com/sony/sonyflake/v2"
 	"github.com/spf13/viper"
 	"github.com/ts-gunner/steins-backend-go/config"
 	"go.uber.org/zap"
@@ -8,8 +9,9 @@ import (
 )
 
 var (
-	SBG_CONFIG *config.Application
-	SBG_VP     *viper.Viper
-	SBG_DB     *gorm.DB
-	LOGGER     *zap.Logger
+	SBG_CONFIG     *config.Application
+	SBG_VP         *viper.Viper
+	SBG_DB         *gorm.DB
+	LOGGER         *zap.Logger
+	SBG_ID_CREATOR *sonyflake.Sonyflake
 )

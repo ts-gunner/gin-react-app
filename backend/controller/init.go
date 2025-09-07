@@ -21,6 +21,12 @@ func (h InitHandler) InitProject(c *gin.Context) {
 		response.Fail("参数校验异常", c)
 		return
 	}
-	response.Ok(c)
+	if err := initService.InitProject(initRequest); err != nil {
+		global.LOGGER.Error("自动创建数据库失败!", zap.Error(err))
+		response.Fail("自动创建数据库失败, 请查看后台日志", c)
+		return
+	}
+
+	response.OkWithMessage("自动创建数据库成功", c)
 
 }

@@ -1,43 +1,37 @@
-system:
-  port: 18888
-  context-path: /steins/go
-  db-type:
-  oss-type: aliyun
-
-zap:
-  level: info
-  prefix: "[github.com/ts-gunner/gin-react-app]"
-  format: console
-  director: log
-  encode-level: LowercaseLevelEncoder
-  show-line: true
-  log-in-console: true
-
 mysql:
-  path:
-  port:
-  username:
-  password:
-  db-name:
-  max-idle-conns: 10
-  max-open-conns: 40
-
-
-
-sqlite:
-  path: ./
-  port: ""
-  username: ""
-  password: ""
-  db-name: steins
-  max-idle-conns: 5
-  max-open-conns: 10
-
+    path: 127.0.0.1
+    port: "3306"
+    db-name: sbg
+    username: root
+    password: "123456"
+    max-idle-conns: 10
+    max-open-conns: 100
 pgsql:
-  path: ""
-  port: ""
-  username: ""
-  password: ""
-  db-name: ""
-  max-idle-conns: 10
-  max-open-conns: 40
+    path: ""
+    port: ""
+    db-name: ""
+    username: ""
+    password: ""
+    max-idle-conns: 0
+    max-open-conns: 0
+sqlite:
+    path: ./
+    port: ""
+    db-name: steins
+    username: ""
+    password: ""
+    max-idle-conns: 0
+    max-open-conns: 0
+system:
+    port: "18888"
+    db-type: mysql
+    oss-type: aliyun
+    context-path: /steins/go
+zap:
+    level: info
+    prefix: '[gin-react-app]'
+    format: console
+    director: log
+    encodelevel: LowercaseLevelEncoder
+    showline: true
+    loginconsole: true

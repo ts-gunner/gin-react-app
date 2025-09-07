@@ -1,5 +1,7 @@
 package controller
 
+import "github.com/ts-gunner/steins-backend-go/services"
+
 var AppHandler = new(Controller)
 
 type Controller struct {
@@ -8,4 +10,6 @@ type Controller struct {
 }
 
 // 注册service
-var ()
+var (
+	initService = services.AppService.InitService
+)

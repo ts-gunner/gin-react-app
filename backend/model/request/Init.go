@@ -1,6 +1,10 @@
 package request
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/ts-gunner/steins-backend-go/config"
+)
 
 type InitProjectRequest struct {
 	AdminAccount  string `json:"adminAccount" binding:"required"`  // 管理员账号
@@ -13,6 +17,27 @@ type InitProjectRequest struct {
 	DBName        string `json:"dbName" binding:"required"`
 }
 
+func (i *InitProjectRequest) ToMysqlConfig() *config.Mysql {
+	if i.Host == "" {
+		i.Host = "127.0.0.1"
+	}
+	if i.Port == "" {
+		i.Port = "3306"
+	}
+	c := &config.Mysql{
+		CommonDB: config.CommonDB{
+			Path:         i.Host,
+			Port:         i.Port,
+			DbName:       i.DBName,
+			Username:     i.Username,
+			Password:     i.Password,
+			MaxIdleConns: 10,
+			MaxOpenConns: 100,
+		},
+	}
+	return c
+
+}
 func (i *InitProjectRequest) MySQLEmptyDsn() string {
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
