@@ -11,5 +11,5 @@ type RouterGroup struct {
 
 var (
 	homeHandler = controller.AppHandler.HomeHandler
-	iniHandler  = controller.AppHandler.InitHandler
+	initHandler = controller.AppHandler.InitHandler
 )

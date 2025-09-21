@@ -75,19 +75,36 @@ handler函数
 
 ```go
 
-// @Summary      say hello world
-// @Description  return hello world json format content
-// @param       name query    string  true  "name"
-// @Tags         system
-// @Produce      json
-// @Router       /ping [get]
-func Ping(ctx *gin.Context) {
-    ctx.JSON(200, gin.H{
-    "message": fmt.Sprintf("Hello World!%s", ctx.Query("name")),
-    })
+// @Tags init
+// @ID checkNeedInit
+// @Router /init/check [get]
+// @Summary checkNeedInit
+// @Description 查看是否需要初始化
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response[response.CheckResult]
+func (h *InitHandler) CheckNeedInit(c *gin.Context) {
+if global.SBG_DB == nil {
+response.OkWithData(response.CheckResult{Result: false}, c)
+return
+}
+
+response.OkWithData(response.CheckResult{Result: true}, c)
+return
 }
 ```
 
+注解解释:
+
+- `@Tags`: 接口分组
+- `@ID`: swag对应operationId，作用：前端调用openapi时生成ID为函数名的调用方法。
+- `@Router`: 接口路由
+- `@Summary`: 接口解释
+- `@Description`: 接口描述
+- `@Accept`: 请求参数类型
+- `@Produce`: 返回参数类型
+- `@Success`: 接口正常的响应结果
+- `@Failure`: 接口异常的响应结果
 
 
 ## FAQ

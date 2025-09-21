@@ -12,9 +12,9 @@ type InitProjectRequest struct {
 	DbType        string `json:"dbType" binding:"required"`        // 数据库类型
 	Host          string `json:"host"`                             // 服务器地址
 	Port          string `json:"port"`                             // 端口
-	Username      string `json:"username" binding:"required"`
-	Password      string `json:"password" binding:"required"`
-	DBName        string `json:"dbName" binding:"required"`
+	Username      string `json:"username" binding:"required"`      //用户名
+	Password      string `json:"password" binding:"required"`      // 密码
+	DBName        string `json:"dbName" binding:"required"`        // 数据库名
 }
 
 func (i *InitProjectRequest) ToMysqlConfig() *config.Mysql {

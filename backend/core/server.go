@@ -15,7 +15,11 @@ import (
 
 func RunServer() {
 	routerGroup := initRouter()
-	fmt.Printf(global.INIT_BANNER, global.SBG_CONFIG.System.Port)
+	fmt.Printf(
+		global.INIT_BANNER, global.SBG_CONFIG.System.Port,
+		global.SBG_CONFIG.System.Port, global.SBG_CONFIG.System.ContextPath,
+		global.SBG_CONFIG.System.Port, global.SBG_CONFIG.System.ContextPath,
+	)
 	// 启动web服务
 	initServer(global.SBG_CONFIG.System.Port, routerGroup)
 }

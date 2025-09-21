@@ -15,40 +15,149 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/articles/{id}": {
-            "delete": {
+        "/init/check": {
+            "get": {
+                "description": "查看是否需要初始化",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "删除文章",
+                "tags": [
+                    "initController"
+                ],
+                "summary": "checkNeedInit",
+                "operationId": "checkNeedInit",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_CheckResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/init/init_project": {
+            "post": {
+                "description": "当配置文件的数据库配置为空时，需要进行项目初始化",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "initController"
+                ],
+                "summary": "项目初始化",
+                "operationId": "initProject",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "文章ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "初始化相关参数",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.InitProjectRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "成功",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "内部错误",
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/response.Response-any"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "request.InitProjectRequest": {
+            "type": "object",
+            "required": [
+                "adminAccount",
+                "adminPassword",
+                "dbName",
+                "dbType",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "adminAccount": {
+                    "description": "管理员账号",
+                    "type": "string"
+                },
+                "adminPassword": {
+                    "description": "管理员密码",
+                    "type": "string"
+                },
+                "dbName": {
+                    "description": "数据库名",
+                    "type": "string"
+                },
+                "dbType": {
+                    "description": "数据库类型",
+                    "type": "string"
+                },
+                "host": {
+                    "description": "服务器地址",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "端口",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "response.CheckResult": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "description": "是否需要初始化",
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "response.Response-any": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
+        "response.Response-response_CheckResult": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "$ref": "#/definitions/response.CheckResult"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
                 }
             }
         }

@@ -26,25 +26,12 @@ export default defineConfig({
     //  { path: "/company_manage", component: "./BusinessManage" },
     // { path: "/agreement", component: "./Agreement", layout: false },
     // { path: "/viewer", component: "./FileViewer", layout: false },
-    {path: "/", component: "./init"},
+    { path: "/init", component: "./init" },
     {
-      path: "",
-      routes: [
-        {
-          path: "/login",
-          component: "./app/login"
-        }
-      ]
+      path: "/login",
+      component: "./login"
     },
-    {
-      path: "/admin",
-      routes: [
-        {
-          path: "/admin/login",
-          component: "./admin/login"
-        }
-      ]
-    },
+
     {
       path: '/',
       redirect: '/login',

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
-  User, Lock, Phone, Mail, Eye, EyeOff, 
-  ChevronRight, RefreshCw, Check, AlertCircle,
-  ArrowRight, Shield, Clock, Zap, ShieldAlert,
-  X, CheckCircle2, ArrowLeft, Send
+  User, Lock, Phone,  Eye, EyeOff, 
+  RefreshCw, AlertCircle,
+  ArrowRight, Shield, Clock, Zap,
 } from 'lucide-react';
+import { checkNeedInit } from '@/services/go_api/initController';
 
 // 定义表单数据类型
 interface FormData {
@@ -108,9 +108,17 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [codeLoading, setCodeLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [initializationStatus, setInitializationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  
+  const [isNeedInit, setIsNeedInit] = useState<boolean>(false)
+
+
+  const checkInitState = async () => {
+    const resp = await checkNeedInit()
+    if (resp.code === 200) {
+      setIsNeedInit(resp.data?.result || false)
+    }
+  }
+
+
   // 引用
   const decorationRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -171,11 +179,9 @@ const LoginPage: React.FC = () => {
       // 模拟登录请求
       setTimeout(() => {
         setIsLoading(false);
-        setShowSuccessModal(true);
         
         // 3秒后关闭成功提示
         setTimeout(() => {
-          setShowSuccessModal(false);
         }, 3000);
       }, 1500);
     }
@@ -208,22 +214,6 @@ const LoginPage: React.FC = () => {
     setErrors({});
   };
   
-  // 项目初始化处理
-  const handleInitialization = () => {
-    setInitializationStatus('loading');
-    
-    // 模拟初始化过程
-    setTimeout(() => {
-      // 模拟成功或失败
-      const success = Math.random() > 0.2;
-      setInitializationStatus(success ? 'success' : 'error');
-      
-      // 5秒后重置状态
-      setTimeout(() => {
-        setInitializationStatus('idle');
-      }, 5000);
-    }, 2000);
-  };
   
   // 倒计时效果
   useEffect(() => {
@@ -534,38 +524,9 @@ const LoginPage: React.FC = () => {
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"
-              onClick={handleInitialization}
-              disabled={initializationStatus === 'loading'}
-              className={`mt-8 px-6 py-2.5 rounded-lg font-medium transition-all flex items-center ${
-                initializationStatus === 'loading'
-                  ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
-                  : initializationStatus === 'success'
-                  ? 'bg-green-500 hover:bg-green-600'
-                  : initializationStatus === 'error'
-                  ? 'bg-red-500 hover:bg-red-600'
-                  : 'bg-indigo-500 hover:bg-indigo-600'
-              } text-white`}
+              className={`bg-[var(--accent-200)] mt-8 px-6 py-2.5 rounded-lg font-medium transition-all flex items-center text-white`}
             >
-              {initializationStatus === 'loading' ? (
-                <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                  初始化中...
-                </>
-              ) : initializationStatus === 'success' ? (
-                <>
-                  <Check className="h-4 w-4 mr-2" />
-                  初始化成功
-                </>
-              ) : initializationStatus === 'error' ? (
-                <>
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  初始化失败
-                </>
-              ) : (
-                <>
-                  项目初始化
-                </>
-              )}
+             项目初始化
             </motion.button>
           </div>
         </motion.div>
@@ -652,41 +613,7 @@ const LoginPage: React.FC = () => {
           ></motion.div>
         </motion.div>
       </div>
-      
-      {/* 登录成功弹窗 */}
-      <AnimatePresence>
-        {showSuccessModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
-            >
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle2 className="h-8 w-8 text-green-500" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">登录成功</h3>
-                <p className="text-slate-600 mb-6">您已成功登录系统，正在跳转...</p>
-                <div className="w-full bg-slate-100 rounded-full h-2.5">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 3 }}
-                    className="bg-gradient-to-r from-green-400 to-green-600 h-2.5 rounded-full"
-                  ></motion.div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+  
     </div>
   );
 };

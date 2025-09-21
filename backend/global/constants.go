@@ -25,5 +25,7 @@ const (
 
 欢迎使用steins-backend-go
 项目地址: http://127.0.0.1:%s
+项目接口文档地址: http://127.0.0.1:%s%s/swagger/index.html
+项目接口文档地址: http://127.0.0.1:%s%s/swagger/doc.json
 `
 )

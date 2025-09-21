@@ -10,6 +10,33 @@ import (
 
 type InitHandler struct{}
 
+// @Tags initController
+// @ID checkNeedInit
+// @Router /init/check [get]
+// @Summary checkNeedInit
+// @Description 查看是否需要初始化
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response[response.CheckResult]
+func (h *InitHandler) CheckNeedInit(c *gin.Context) {
+	if global.SBG_DB == nil {
+		response.OkWithData[response.CheckResult](response.CheckResult{Result: false}, c)
+		return
+	}
+
+	response.OkWithData[response.CheckResult](response.CheckResult{Result: true}, c)
+	return
+}
+
+// @Tags initController
+// @ID initProject
+// @Router /init/init_project [post]
+// @Summary 项目初始化
+// @Description 当配置文件的数据库配置为空时，需要进行项目初始化
+// @Accept json
+// @Produce json
+// @Param user body request.InitProjectRequest true "初始化相关参数"
+// @Success 200 {object} response.Response[any]
 func (h InitHandler) InitProject(c *gin.Context) {
 	if global.SBG_DB != nil {
 		response.Fail("已存在数据库配置", c)

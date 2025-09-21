@@ -6,32 +6,33 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+// @Type Response[T]
+type Response[T any] struct {
+	Code int    `json:"code" example:"200"`
+	Msg  string `json:"msg" example:"成功"`
+	Data T      `json:"data"`
 }
 
 const (
 	DEFAULT_MSG = "成功"
 )
 
-func Result(code int, msg string, data interface{}, c *gin.Context) {
-	c.JSON(http.StatusOK, Response{code, msg, data})
+func Result[T any](code int, msg string, data T, c *gin.Context) {
+	c.JSON(http.StatusOK, Response[T]{code, msg, data})
 }
 
 func Ok(c *gin.Context) {
-	Result(http.StatusOK, DEFAULT_MSG, nil, c)
+	Result[any](http.StatusOK, DEFAULT_MSG, nil, c)
 }
 
 func OkWithMessage(message string, c *gin.Context) {
-	Result(http.StatusOK, message, nil, c)
+	Result[any](http.StatusOK, message, nil, c)
 }
 
-func OkWithData(data interface{}, c *gin.Context) {
-	Result(http.StatusOK, DEFAULT_MSG, data, c)
+func OkWithData[T any](data T, c *gin.Context) {
+	Result[T](http.StatusOK, DEFAULT_MSG, data, c)
 }
 
 func Fail(message string, c *gin.Context) {
-	Result(http.StatusBadRequest, message, nil, c)
+	Result[any](http.StatusBadRequest, message, nil, c)
 }
