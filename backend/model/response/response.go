@@ -36,3 +36,7 @@ func OkWithData[T any](data T, c *gin.Context) {
 func Fail(message string, c *gin.Context) {
 	Result[any](http.StatusBadRequest, message, nil, c)
 }
+
+func FailWithCode(code int, message string, c *gin.Context) {
+	Result[any](code, message, nil, c)
+}

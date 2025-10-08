@@ -55,6 +55,18 @@ definitions:
     - password
     - username
     type: object
+  request.PwdLogin:
+    properties:
+      password:
+        description: 密码
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - username
+    type: object
   response.CheckResult:
     properties:
       result:
@@ -81,17 +93,100 @@ definitions:
         example: 成功
         type: string
     type: object
+  response.Response-response_SystemUserVo:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/response.SystemUserVo'
+      msg:
+        example: 成功
+        type: string
+    type: object
+  response.SystemUserVo:
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      isAdmin:
+        description: 是否为管理员
+        type: boolean
+      nickname:
+        description: 昵称
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      token:
+        description: token
+        type: string
+      userId:
+        description: 用户id
+        type: integer
+    type: object
 info:
   contact: {}
   description: This is a sample server for Gin Swagger.
   title: Gin Swagger Demo API
   version: "1.0"
 paths:
+  /auth/admin_pwd_login:
+    post:
+      consumes:
+      - application/json
+      operationId: adminPwdLogin
+      parameters:
+      - description: 密码登录参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.PwdLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-response_SystemUserVo'
+      summary: 管理端密码登录
+      tags:
+      - authController
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      operationId: userLogout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: 用户退出登录
+      tags:
+      - authController
+  /auth/pwd_login:
+    post:
+      consumes:
+      - application/json
+      operationId: userPwdLogin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: 用户端密码登录
+      tags:
+      - authController
   /init/check:
     get:
       consumes:
       - application/json
-      description: 查看是否需要初始化
       operationId: checkNeedInit
       produces:
       - application/json
@@ -100,7 +195,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response-response_CheckResult'
-      summary: checkNeedInit
+      summary: 查看是否需要初始化
       tags:
       - initController
   /init/init_project:
@@ -148,4 +243,19 @@ paths:
       summary: 测试数据库是否能够连接
       tags:
       - initController
+  /user/get_info:
+    get:
+      consumes:
+      - application/json
+      operationId: getUserInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-response_SystemUserVo'
+      summary: 获取登录用户信息
+      tags:
+      - systemUserController
 swagger: "2.0"

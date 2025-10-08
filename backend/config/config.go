@@ -6,4 +6,5 @@ type Application struct {
 	Pgsql  Pgsql  `mapstructure:"pgsql" json:"pgsql" yaml:"pgsql"`    // postgresql 相关配置
 	Sqlite Sqlite `mapstructure:"sqlite" json:"sqlite" yaml:"sqlite"` // sqlite相关配置
 	Zap    Zap    `mapstructure:"zap" json:"zap" yaml:"zap"`          // 日志相关配置
+	Redis  Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`    // redis相关配置
 }

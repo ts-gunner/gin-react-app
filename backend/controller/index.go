@@ -7,9 +7,13 @@ var AppHandler = new(Controller)
 type Controller struct {
 	HomeHandler
 	InitHandler
+	AuthHandler
+	SystemUserHandler
 }
 
 // 注册service
 var (
 	initService = services.AppService.InitService
+	userService = services.AppService.SystemUserService
+	authService = services.AppService.AuthService
 )

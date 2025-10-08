@@ -32,11 +32,13 @@
 ## go依赖
 
 
-|  package   |  origin  |   remark    |
-|:----------:|:--------:|:-----------:|
-|    gin     |github.com/gin-gonic/gin |  go web框架   |
-| viper | github.com/spf13/viper | 读取配置文件，支持监听 |
-| zap  |  go.uber.org/zap |    日志框架     |
+| package |            origin            |   remark    |
+|:-------:|:----------------------------:|:-----------:|
+|   gin   |   github.com/gin-gonic/gin   |  go web框架   |
+|  viper  |    github.com/spf13/viper    | 读取配置文件，支持监听 |
+|   zap   |       go.uber.org/zap        |    日志框架     |
+| copier  |   github.com/jinzhu/copier   |   对象复制    |
+|   jwt   | github.com/golang-jwt/jwt/v5 |     鉴权      |
 
 
 ## 生成swagger文档

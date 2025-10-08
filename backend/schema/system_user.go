@@ -9,6 +9,7 @@ type SystemUser struct {
 	Nickname string `json:"nickname" gorm:"column:nickname;not null;comment:用户昵称"`
 	Email    string `json:"email" gorm:"column:email;comment:邮箱"`
 	Phone    string `json:"phone" gorm:"column:phone;not null;comment:手机号码"`
+	IsAdmin  bool   `json:"is_admin" gorm:"column:is_admin;default:false;not null;comment:是否为管理员"`
 	BaseSchema
 }
 

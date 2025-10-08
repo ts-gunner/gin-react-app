@@ -7,9 +7,13 @@ var RouterSet = new(RouterGroup)
 type RouterGroup struct {
 	HomeRouter
 	InitRouter
+	AuthRouter
+	SystemUserRouter
 }
 
 var (
-	homeHandler = controller.AppHandler.HomeHandler
-	initHandler = controller.AppHandler.InitHandler
+	homeHandler       = controller.AppHandler.HomeHandler
+	initHandler       = controller.AppHandler.InitHandler
+	authHandler       = controller.AppHandler.AuthHandler
+	systemUserHandler = controller.AppHandler.SystemUserHandler
 )

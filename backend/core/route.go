@@ -17,6 +17,7 @@ func initRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	set := router.RouterSet
 	contextGroup := r.Group(global.SBG_CONFIG.System.ContextPath)
+	authGroup := r.Group(global.SBG_CONFIG.System.ContextPath, middleware.IdentityVerification()) // 需要鉴权的路由
 	{
 		contextGroup.GET("/health_check", func(c *gin.Context) {
 			response.Ok(c)
@@ -26,6 +27,10 @@ func initRouter() *gin.Engine {
 	{
 		set.InitHomeRouter(contextGroup)
 		set.InitProjectRouter(contextGroup)
+		set.InitAuthRouter(contextGroup)
+	}
+	{
+		set.InitSystemUserRouter(authGroup)
 	}
 	return r
 }

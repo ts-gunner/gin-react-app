@@ -11,7 +11,6 @@ import (
 func main() {
 	initializeSystem()
 	core.RunServer()
-
 }
 
 func initializeSystem() {
@@ -20,6 +19,7 @@ func initializeSystem() {
 	global.SBG_DB = core.Gorm()
 	global.LOGGER = core.InitZapLogger()
 	global.SBG_ID_CREATOR = core.InitIDCreator()
+	global.SBG_REDIS = core.RedisConnection()
 	if global.SBG_DB != nil {
 		core.RegisterTables() // 初始化表
 	}

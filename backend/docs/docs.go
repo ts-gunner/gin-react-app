@@ -15,9 +15,88 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/admin_pwd_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authController"
+                ],
+                "summary": "管理端密码登录",
+                "operationId": "adminPwdLogin",
+                "parameters": [
+                    {
+                        "description": "密码登录参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PwdLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_SystemUserVo"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authController"
+                ],
+                "summary": "用户退出登录",
+                "operationId": "userLogout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/pwd_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authController"
+                ],
+                "summary": "用户端密码登录",
+                "operationId": "userPwdLogin",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            }
+        },
         "/init/check": {
             "get": {
-                "description": "查看是否需要初始化",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,7 +106,7 @@ const docTemplate = `{
                 "tags": [
                     "initController"
                 ],
-                "summary": "checkNeedInit",
+                "summary": "查看是否需要初始化",
                 "operationId": "checkNeedInit",
                 "responses": {
                     "200": {
@@ -103,6 +182,29 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.Response-response_CheckResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/get_info": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "获取登录用户信息",
+                "operationId": "getUserInfo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_SystemUserVo"
                         }
                     }
                 }
@@ -185,6 +287,23 @@ const docTemplate = `{
                 }
             }
         },
+        "request.PwdLogin": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
         "response.CheckResult": {
             "type": "object",
             "properties": {
@@ -220,6 +339,51 @@ const docTemplate = `{
                 "msg": {
                     "type": "string",
                     "example": "成功"
+                }
+            }
+        },
+        "response.Response-response_SystemUserVo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "$ref": "#/definitions/response.SystemUserVo"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
+        "response.SystemUserVo": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "description": "是否为管理员",
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "token": {
+                    "description": "token",
+                    "type": "string"
+                },
+                "userId": {
+                    "description": "用户id",
+                    "type": "integer"
                 }
             }
         }

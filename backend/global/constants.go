@@ -9,6 +9,7 @@ const (
 )
 
 const (
+	SECRET_KEY  = "steins-backend-go"
 	INIT_BANNER = `
 
       ___           ___           ___                       ___           ___           ___
@@ -28,4 +29,9 @@ const (
 项目接口文档地址: http://127.0.0.1:%s%s/swagger/index.html
 项目接口文档地址: http://127.0.0.1:%s%s/swagger/doc.json
 `
+)
+
+// Redis相关常量
+const (
+	REDIS_USER_TOKEN = "token:"
 )

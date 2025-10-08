@@ -1,11 +1,16 @@
 mysql:
-    path:
-    port:
-    db-name:
-    username:
-    password:
+    path: 127.0.0.1
+    port: 3306
+    db-name: sbg
+    username: root
+    password: 123456
     max-idle-conns: 10
     max-open-conns: 100
+redis:
+    port: 6379
+    host: 127.0.0.1
+    password: 123456
+    db: 0
 pgsql:
     path: ""
     port: ""
@@ -32,6 +37,6 @@ zap:
     prefix: '[gin-react-app]'
     format: console
     director: log
-    encodelevel: ""
-    showline: false
-    loginconsole: false
+    encode-level: ""
+    show-line: false
+    log-in-console: true

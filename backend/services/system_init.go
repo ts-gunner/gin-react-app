@@ -9,6 +9,7 @@ import (
 	"github.com/ts-gunner/steins-backend-go/global"
 	"github.com/ts-gunner/steins-backend-go/model/request"
 	"github.com/ts-gunner/steins-backend-go/schema"
+	"github.com/ts-gunner/steins-backend-go/utils"
 	"gorm.io/gorm"
 )
 
@@ -142,7 +143,7 @@ func initTableData(ctx context.Context) error {
 	newUser := schema.SystemUser{
 		UserId:   userId,
 		Account:  adminAccount,
-		Password: adminPassword,
+		Password: utils.EncryptBySha256(adminPassword),
 		Nickname: "超级管理员",
 	}
 

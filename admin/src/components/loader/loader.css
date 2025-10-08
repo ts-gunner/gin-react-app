@@ -1,0 +1,16 @@
+
+.react-pdf__Page {
+   display: flex;
+   height: 100%;
+   justify-content: center;
+
+}
+
+.react-pdf__Page__canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.react-pdf__message--loading {
+    height: 100%;
+}
