@@ -65,9 +65,73 @@
                     }
                 }
             }
+        },
+        "/init/test_db_connection": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "initController"
+                ],
+                "summary": "测试数据库是否能够连接",
+                "operationId": "testDBConnection",
+                "parameters": [
+                    {
+                        "description": "测试数据库连接相关参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.DBConnectionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_CheckResult"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "request.DBConnectionRequest": {
+            "type": "object",
+            "required": [
+                "dbType",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "dbType": {
+                    "description": "数据库类型",
+                    "type": "string"
+                },
+                "host": {
+                    "description": "服务器地址",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "端口",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
         "request.InitProjectRequest": {
             "type": "object",
             "required": [
@@ -117,9 +181,7 @@
             "type": "object",
             "properties": {
                 "result": {
-                    "description": "是否需要初始化",
-                    "type": "boolean",
-                    "example": true
+                    "type": "boolean"
                 }
             }
         },

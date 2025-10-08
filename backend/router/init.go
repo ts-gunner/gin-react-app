@@ -10,6 +10,7 @@ func (_ *InitRouter) InitProjectRouter(Router *gin.RouterGroup) {
 	{
 		initRouter.POST("init_project", initHandler.InitProject)
 		initRouter.GET("check", initHandler.CheckNeedInit)
+		initRouter.POST("test_db_connection", initHandler.TestDBConnection)
 
 	}
 }

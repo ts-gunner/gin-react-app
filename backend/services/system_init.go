@@ -61,6 +61,40 @@ func (s *InitService) InitProject(req request.InitProjectRequest) error {
 	return nil
 }
 
+func (s *InitService) CheckDBConnection(req request.DBConnectionRequest) error {
+	var (
+		dsn    string
+		dbType string
+	)
+	switch req.DbType {
+	case "mysql":
+		dsn = req.MySQLEmptyDsn()
+		dbType = "mysql"
+	case "pgsql":
+		dsn = req.PgsqlEmptyDsn()
+		dbType = "pgsql"
+	default:
+		dsn = req.MySQLEmptyDsn()
+		dbType = "mysql"
+	}
+	return connectDatabase(dsn, dbType)
+}
+func connectDatabase(dsn string, driver string) error {
+	db, err := sql.Open(driver, dsn)
+	if err != nil {
+		return err
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}(db)
+	if err = db.Ping(); err != nil {
+		return err
+	}
+	return nil
+}
 func createDatabase(dsn string, driver string, createSql string) error {
 	db, err := sql.Open(driver, dsn)
 	if err != nil {

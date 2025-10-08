@@ -13,19 +13,45 @@ type InitHandler struct{}
 // @Tags initController
 // @ID checkNeedInit
 // @Router /init/check [get]
-// @Summary checkNeedInit
-// @Description 查看是否需要初始化
+// @Summary 查看是否需要初始化
+// @Description
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response[response.CheckResult]
 func (h *InitHandler) CheckNeedInit(c *gin.Context) {
-	if global.SBG_DB == nil {
+	if global.SBG_DB != nil {
 		response.OkWithData[response.CheckResult](response.CheckResult{Result: false}, c)
 		return
 	}
 
 	response.OkWithData[response.CheckResult](response.CheckResult{Result: true}, c)
 	return
+}
+
+// @Tags initController
+// @ID testDBConnection
+// @Router /init/test_db_connection [post]
+// @Summary 测试数据库是否能够连接
+// @Description
+// @Accept json
+// @Produce json
+// @Param request body request.DBConnectionRequest true "测试数据库连接相关参数"
+// @Success 200 {object} response.Response[response.CheckResult]
+func (h InitHandler) TestDBConnection(c *gin.Context) {
+	var dbConnectionRequest request.DBConnectionRequest
+	if err := c.ShouldBindJSON(&dbConnectionRequest); err != nil {
+		global.LOGGER.Error("参数校验失败!!", zap.Any("request", dbConnectionRequest))
+		response.Fail("参数校验失败", c)
+		return
+	}
+	err := initService.CheckDBConnection(dbConnectionRequest)
+	if err != nil {
+		response.OkWithData[response.CheckResult](response.CheckResult{Result: false}, c)
+		return
+	} else {
+		response.OkWithData[response.CheckResult](response.CheckResult{Result: true}, c)
+		return
+	}
 }
 
 // @Tags initController

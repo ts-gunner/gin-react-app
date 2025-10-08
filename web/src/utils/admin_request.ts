@@ -1,8 +1,9 @@
 import { extend } from 'umi-request';
 import { toast } from 'sonner';
 import { history as umiHistory } from "umi"
+import { APPLICATION_CONFIG } from '@/constants/config';
 const request = extend({
-  prefix: "", // 基础路径
+  prefix: APPLICATION_CONFIG.BACKEND_URL, // 基础路径
   timeout: 300000,
   errorHandler: (error) => {
     if (!error.response) {

@@ -6,15 +6,19 @@ import (
 	"github.com/ts-gunner/steins-backend-go/config"
 )
 
+type DBConnectionRequest struct {
+	DbType   string `json:"dbType" binding:"required"`   // 数据库类型
+	Host     string `json:"host"`                        // 服务器地址
+	Port     string `json:"port"`                        // 端口
+	Username string `json:"username" binding:"required"` //用户名
+	Password string `json:"password" binding:"required"` // 密码
+}
+
 type InitProjectRequest struct {
 	AdminAccount  string `json:"adminAccount" binding:"required"`  // 管理员账号
 	AdminPassword string `json:"adminPassword" binding:"required"` // 管理员密码
-	DbType        string `json:"dbType" binding:"required"`        // 数据库类型
-	Host          string `json:"host"`                             // 服务器地址
-	Port          string `json:"port"`                             // 端口
-	Username      string `json:"username" binding:"required"`      //用户名
-	Password      string `json:"password" binding:"required"`      // 密码
-	DBName        string `json:"dbName" binding:"required"`        // 数据库名
+	DBConnectionRequest
+	DBName string `json:"dbName" binding:"required"` // 数据库名
 }
 
 func (i *InitProjectRequest) ToMysqlConfig() *config.Mysql {
@@ -38,7 +42,7 @@ func (i *InitProjectRequest) ToMysqlConfig() *config.Mysql {
 	return c
 
 }
-func (i *InitProjectRequest) MySQLEmptyDsn() string {
+func (i *DBConnectionRequest) MySQLEmptyDsn() string {
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
 	}
@@ -48,7 +52,7 @@ func (i *InitProjectRequest) MySQLEmptyDsn() string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%s)/", i.Username, i.Password, i.Host, i.Port)
 }
 
-func (i *InitProjectRequest) PgsqlEmptyDsn() string {
+func (i *DBConnectionRequest) PgsqlEmptyDsn() string {
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
 	}

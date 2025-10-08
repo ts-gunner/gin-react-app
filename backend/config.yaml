@@ -1,8 +1,8 @@
 mysql:
-    path: 127.0.0.1
-    port: "3306"
+    path:
+    port:
     db-name:
-    username: root
+    username:
     password:
     max-idle-conns: 10
     max-open-conns: 100
@@ -32,6 +32,6 @@ zap:
     prefix: '[gin-react-app]'
     format: console
     director: log
-    encodelevel: LowercaseLevelEncoder
-    showline: true
-    loginconsole: true
+    encodelevel: ""
+    showline: false
+    loginconsole: false

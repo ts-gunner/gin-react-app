@@ -24,3 +24,18 @@ export async function initProject(
     ...(options || {}),
   });
 }
+
+/** 测试数据库是否能够连接 POST /init/test_db_connection */
+export async function testDbConnection(
+  body: API.DBConnectionRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.ResponseResponseCheckResult>("/init/test_db_connection", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

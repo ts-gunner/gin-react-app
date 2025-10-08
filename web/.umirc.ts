@@ -1,11 +1,10 @@
+import dotenv from "dotenv";
 import { defineConfig } from "umi";
-import dotenv from "dotenv"
-
 
 if (process.env.UMI_ENV) {
-  dotenv.config({ path: ".env" + "." + process.env.UMI_ENV, override: true })
+  dotenv.config({ path: ".env" + "." + process.env.UMI_ENV, override: true });
 } else {
-  dotenv.config({ path: ".env", override: true })
+  dotenv.config({ path: ".env", override: true });
 }
 
 export default defineConfig({
@@ -13,44 +12,39 @@ export default defineConfig({
   publicPath: process.env.NODE_ENV === "production" ? "./" : "/", // electron打包必备配置
   title: "gin-react-template",
   history: {
-    type: process.env.HISTORY_MODE as ("browser" | "hash") || "browser"
+    type: (process.env.HISTORY_MODE as "browser" | "hash") || "browser",
   }, // electron打包必备配置
+  proxy: {
+    "/steins/go": {
+      target: "http://127.0.0.1:18888",
+    },
+  },
   define: {
-    // "process.env.OS_DEVICE": process.env.OS_DEVICE,
+    // "process.env.API_PREFIX": process.env.API_PREFIX,
   },
   routes: [
-    // { path: "/attachment", component: "./Attachment" },
-    // { path: "/business_attachment", component: "./Attachment" },
-    // { path: "/login", component: "./Login", layout: false },
-    // { path: "/bid_audit", component: "./BidAudit" },
-    //  { path: "/company_manage", component: "./BusinessManage" },
-    // { path: "/agreement", component: "./Agreement", layout: false },
-    // { path: "/viewer", component: "./FileViewer", layout: false },
     { path: "/init", component: "./init" },
     {
       path: "/login",
-      component: "./login"
+      component: "./login",
     },
 
     {
-      path: '/',
-      redirect: '/login',
+      path: "/",
+      redirect: "/login",
     },
 
     {
-      path: '*',
+      path: "*",
       layout: false,
-      component: './404',
+      component: "./404",
     },
   ],
   npmClient: "yarn",
   outputPath: "build",
   codeSplitting: {
-    jsStrategy: 'granularChunks',
+    jsStrategy: "granularChunks",
   },
-  extraPostCSSPlugins: [
-    require("@tailwindcss/postcss")
-  ],
-  esbuildMinifyIIFE: true
-
+  extraPostCSSPlugins: [require("@tailwindcss/postcss")],
+  esbuildMinifyIIFE: true,
 });

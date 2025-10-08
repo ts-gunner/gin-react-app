@@ -109,6 +109,8 @@ return
 
 ## FAQ
 
+### 创建表结构，使用AutoMigrate报错
+
 1. 创建表结构时，如果需要创建index索引，需要显式指定index name，否则在gorm的AutoMigrate会报错，会重复创建index索引。
 
 例如： Account添加索引，指定index name为`idx_user_account`
@@ -127,3 +129,19 @@ type SystemUser struct {
 }
 
 ```
+
+
+### go debug异常，无法显示参数
+
+因依赖问题要求GO版本需要从1.18.x版本升级到1.23.x，升级后，Test 启动 debug时，发现打断点的红点一闪而过，出现一个失效的标志（一个灰色圆圈+斜杠），在经过百度大法后，原来高版本（1.20及以上版本）会出现debug断点无效的现象。
+
+window解决方案
+
+1. 升级dlv: `go install github.com/go-delve/delve/cmd/dlv@latest`
+
+2. go env查看GOPATH，跳转到`${GOPATH}/bin`，找到dlv.exe
+
+3. 将dlv.exe复制到goland idea的`${你的idea位置}\plugins\go-plugin\lib\dlv`
+
+4. 重启idea
+
