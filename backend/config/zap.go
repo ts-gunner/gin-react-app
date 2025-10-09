@@ -7,14 +7,14 @@ import (
 )
 
 type Zap struct {
-	Level  string `mapstructure:"level" json:"level"`   // 日志级别
-	Prefix string `mapstructure:"prefix" json:"prefix"` // 日志前缀
+	Level  string `mapstructure:"level" json:"level" yaml:"level"`    // 日志级别
+	Prefix string `mapstructure:"prefix" json:"prefix" yaml:"prefix"` // 日志前缀
 	// 日志输出方式，可选值：console | json， json常用于通过第三方软件分析日志，console输出日志更直观
-	Format       string `mapstructure:"format" json:"format"`
-	Director     string `mapstructure:"director" json:"director"`             // 日志文件夹
-	EncodeLevel  string `mapstructure:"encode-level" json:"encode-level"`     // 编码级
-	ShowLine     bool   `mapstructure:"show-line" json:"show-line"`           // 日志显示调用者信息
-	LogInConsole bool   `mapstructure:"log-in-console" json:"log-in-console"` // 输出控制台
+	Format       string `mapstructure:"format" json:"format" yaml:"format"`
+	Director     string `mapstructure:"director" json:"director" yaml:"director"`                   // 日志文件夹
+	EncodeLevel  string `mapstructure:"encode-level" json:"encode-level" yaml:"encode-level"`       // 编码级
+	ShowLine     bool   `mapstructure:"show-line" json:"show-line" yaml:"show-line"`                // 日志显示调用者信息
+	LogInConsole bool   `mapstructure:"log-in-console" json:"log-in-console" yaml:"log-in-console"` // 输出控制台
 }
 
 func (z Zap) Levels() []zapcore.Level {
