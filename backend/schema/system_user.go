@@ -8,8 +8,9 @@ type SystemUser struct {
 	UnionId  string `json:"union_id" gorm:"column:unionid;comment:开放平台id"`
 	Nickname string `json:"nickname" gorm:"column:nickname;not null;comment:用户昵称"`
 	Email    string `json:"email" gorm:"column:email;comment:邮箱"`
-	Phone    string `json:"phone" gorm:"column:phone;not null;comment:手机号码"`
+	Phone    string `json:"phone" gorm:"column:phone;comment:手机号码"`
 	IsAdmin  bool   `json:"is_admin" gorm:"column:is_admin;default:false;not null;comment:是否为管理员"`
+	Status   int16  `json:"status" gorm:"column:status;default:1;comment:账号状态，0:停用，1正常"`
 	BaseSchema
 }
 

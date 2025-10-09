@@ -1,6 +1,10 @@
 export const PUBLIC_PATH = '/aiadmin/';
+
+
+
 export const ICONS = {
-  logo: `${PUBLIC_PATH}icons/logo.png`,
+  avatar: `${PUBLIC_PATH}icons/avatar.png`,
+  logo: `${PUBLIC_PATH}icons/camel.png`,
   ellipsis: `${PUBLIC_PATH}icons/ellipsis.png`,
   docx: `${PUBLIC_PATH}icons/docx.png`,
   folder: `${PUBLIC_PATH}icons/folder.png`,
@@ -25,3 +29,10 @@ export const ICONS = {
   bg1: `${PUBLIC_PATH}images/bg1.webp`,
   bg3: `${PUBLIC_PATH}images/bg3.webp`,
 };
+
+export const SETTING_CONFIG = {
+  DEFAULT_AVATAR: ICONS.avatar,  // 默认头像
+  LOGO: ICONS.logo,  // 项目logo
+  APP_TITLE: "控制台模板",
+  NAVBAR_TITLE: "控制中心",
+}

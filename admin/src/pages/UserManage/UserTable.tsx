@@ -3,12 +3,13 @@ import { ProTable, ProColumns } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-components';
 import { Button, message, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import dayjs from "dayjs";
 import {
   addSystemUser,
-  deleteSystemUser,
-  getSystemUserPage,
-  resetPassword,
-  updateUserInfo,
+  getSystemUserPageData,
+  // deleteSystemUser,
+  // resetPassword,
+  // updateUserInfo,
 } from '@/services/steins-admin/systemUserController';
 import AddSystemUserModal from './AddSystemUserModal';
 // @ts-ignore
@@ -39,6 +40,12 @@ export default function UserTable({ isAdmin }: UserTableType) {
       hideInTable: true,
     },
     {
+      key: 'domainName',
+      title: '所属域',
+      dataIndex: 'domainName',
+      align: 'center',
+    },
+    {
       key: 'account',
       title: '用户账号',
       dataIndex: 'account',
@@ -48,20 +55,6 @@ export default function UserTable({ isAdmin }: UserTableType) {
       key: 'nickname',
       title: '用户昵称',
       dataIndex: 'nickname',
-      align: 'center',
-    },
-    {
-      key: 'lastIp',
-      title: '上一次登录IP',
-      dataIndex: 'lastIp',
-      align: 'center',
-      hideInSearch: true,
-    },
-    {
-      key: 'loginCount',
-      title: '登录次数',
-      dataIndex: 'loginCount',
-      hideInSearch: true,
       align: 'center',
     },
     {
@@ -79,13 +72,6 @@ export default function UserTable({ isAdmin }: UserTableType) {
       align: 'center',
     },
     {
-      key: 'safeLevel',
-      title: '安全等级',
-      dataIndex: 'safeLevel',
-      align: 'center',
-      hideInSearch: true,
-    },
-    {
       key: 'status',
       title: '状态',
       dataIndex: 'status',
@@ -100,8 +86,12 @@ export default function UserTable({ isAdmin }: UserTableType) {
           status: 'Error',
         },
       },
-      render: (_,record) => {
-        return record.status === 1 ? <Tag color="success">正常</Tag> : <Tag color="error">停用</Tag>;
+      render: (_, record) => {
+        return record.status === 1 ? (
+          <Tag color="success">正常</Tag>
+        ) : (
+          <Tag color="error">停用</Tag>
+        );
       },
     },
 
@@ -111,6 +101,9 @@ export default function UserTable({ isAdmin }: UserTableType) {
       dataIndex: 'createTime',
       align: 'center',
       hideInSearch: true,
+      render: (text: string,record) => {
+        return dayjs(text).format("YYYY-MM-DD")
+      }
     },
     {
       key: 'option',
@@ -144,12 +137,12 @@ export default function UserTable({ isAdmin }: UserTableType) {
           title="删除用户"
           description="是否确认删除该用户?"
           onConfirm={async () => {
-            const resp = await deleteSystemUser({ userId: record.uid as string });
-            if (resp.code === 200) {
-              message.success('删除成功');
-            } else {
-              message.error(resp.msg);
-            }
+            // const resp = await deleteSystemUser({ userId: record.uid as string });
+            // if (resp.code === 200) {
+            //   message.success('删除成功');
+            // } else {
+            //   message.error(resp.msg);
+            // }
             actionRef.current?.reload();
           }}
           // onCancel={cancel}
@@ -191,12 +184,12 @@ export default function UserTable({ isAdmin }: UserTableType) {
           </Button>,
         ]}
         request={async (params) => {
-          const response = await getSystemUserPage({
-            currentPage: params.current,
+          const response = await getSystemUserPageData({
+            current: params.current,
             pageSize: params.pageSize,
             account: params.account,
             nickname: params.nickname,
-            isAdmin: isAdmin,
+            is_admin: isAdmin,
             status: params.status,
           });
           return {
@@ -218,9 +211,8 @@ export default function UserTable({ isAdmin }: UserTableType) {
             username: values.account,
             password: CryptoJS.MD5(values.password).toString(),
             nickname: values.nickname,
-            isAdmin: values.isAdmin,
-            domainId: values.domainId,
-            safeLevel: values.safeLevel,
+            is_admin: values.isAdmin,
+            domain_id: values.domainId,
           });
           if (resp.code === 200) {
             message.success('添加成功！');
@@ -233,16 +225,16 @@ export default function UserTable({ isAdmin }: UserTableType) {
         modalOpen={updateUserModalOpen}
         handleModalOpen={handleUpdateUserModalOpen}
         onSubmit={async (values: any) => {
-          const resp = await updateUserInfo({
-            userId: currentUser.uid,
-            ...values,
-          });
-          if (resp.code === 200) {
-            message.success('修改成功！');
-            actionRef.current?.reload();
-          } else {
-            message.error(resp.msg);
-          }
+          // const resp = await updateUserInfo({
+          //   userId: currentUser.uid,
+          //   ...values,
+          // });
+          // if (resp.code === 200) {
+          //   message.success('修改成功！');
+          //   actionRef.current?.reload();
+          // } else {
+          //   message.error(resp.msg);
+          // }
           handleUpdateUserModalOpen(false);
         }}
         values={currentUser}
@@ -252,16 +244,16 @@ export default function UserTable({ isAdmin }: UserTableType) {
         handleModalOpen={handleResetPwdModalOpen}
         values={currentUser}
         onSubmit={async (values: any) => {
-          const resp = await resetPassword({
-            userId: currentUser.uid as string,
-            password: CryptoJS.MD5(values.password).toString(),
-          });
-          if (resp.code === 200) {
-            message.success('修改成功');
-            actionRef.current?.reload();
-          } else {
-            message.error(resp.msg);
-          }
+          // const resp = await resetPassword({
+          //   userId: currentUser.uid as string,
+          //   password: CryptoJS.MD5(values.password).toString(),
+          // });
+          // if (resp.code === 200) {
+          //   message.success('修改成功');
+          //   actionRef.current?.reload();
+          // } else {
+          //   message.error(resp.msg);
+          // }
           handleUpdateUserModalOpen(false);
         }}
       />

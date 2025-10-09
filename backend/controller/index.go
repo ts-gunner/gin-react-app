@@ -13,7 +13,8 @@ type Controller struct {
 
 // 注册service
 var (
-	initService = services.AppService.InitService
-	userService = services.AppService.SystemUserService
-	authService = services.AppService.AuthService
+	initService   = services.AppService.InitService
+	userService   = services.AppService.SystemUserService
+	authService   = services.AppService.AuthService
+	domainService = services.AppService.SystemDomainService
 )

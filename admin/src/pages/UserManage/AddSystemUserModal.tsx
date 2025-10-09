@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalForm, ProFormText, ProForm, ProFormSelect, ProFormDigit } from '@ant-design/pro-components';
-import { listDomainInfo } from '@/services/steins-admin/systemDomainController';
+// import { listDomainInfo } from '@/services/steins-admin/systemDomainController';
 type ModalProps = {
   modalOpen: boolean;
   handleModalOpen: any;
@@ -40,7 +40,10 @@ export default function AddSystemUserModal({ modalOpen, handleModalOpen, onSubmi
               width="md"
               name="domainId"
               request={async () => {
-                const resp = await listDomainInfo({});
+                // const resp = await listDomainInfo({});
+                const resp = {
+                  data: []
+                }
                 return (
                   resp.data?.map((it) => ({
                     label: it.domainName,

@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store"
 import { getPersistor } from "@rematch/persist";
 import { PersistGate } from "redux-persist/lib/integration/react";
-import { ICONS } from './constants/config';
+import { ICONS, SETTING_CONFIG } from './constants/config';
 import { getUserInfo } from './services/steins-admin/systemUserController';
 const persistor = getPersistor();
 const isDev = process.env.NODE_ENV === 'development';
@@ -40,7 +40,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
-      src: ICONS.logo,  // initialState?.loginUser?.avatar
+      src: SETTING_CONFIG.DEFAULT_AVATAR,  // initialState?.loginUser?.avatar
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>;

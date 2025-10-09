@@ -187,6 +187,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "添加用户信息",
+                "operationId": "addSystemUser",
+                "parameters": [
+                    {
+                        "description": "添加用户请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AddSystemUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
         "/user/get_info": {
             "get": {
                 "consumes": [
@@ -209,9 +243,75 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/get_page": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "添加用户信息",
+                "operationId": "getSystemUserPageData",
+                "parameters": [
+                    {
+                        "description": "获取用户页数据请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.SystemUserPageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_PageResult-response_SystemUserPageVo"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "request.AddSystemUserRequest": {
+            "type": "object",
+            "required": [
+                "domain_id",
+                "is_admin",
+                "nickname",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "domain_id": {
+                    "description": "域id",
+                    "type": "integer"
+                },
+                "is_admin": {
+                    "description": "是否为管理员",
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
         "request.DBConnectionRequest": {
             "type": "object",
             "required": [
@@ -304,11 +404,64 @@ const docTemplate = `{
                 }
             }
         },
+        "request.SystemUserPageRequest": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "description": "账户名称",
+                    "type": "string"
+                },
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "is_admin": {
+                    "description": "是否管理员",
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "description": "页数据量",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "账号状态",
+                    "type": "integer"
+                }
+            }
+        },
         "response.CheckResult": {
             "type": "object",
             "properties": {
                 "result": {
                     "type": "boolean"
+                }
+            }
+        },
+        "response.PageResult-response_SystemUserPageVo": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页条数",
+                    "type": "integer"
+                },
+                "records": {
+                    "description": "数据列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.SystemUserPageVo"
+                    }
+                },
+                "total": {
+                    "description": "总记录数",
+                    "type": "integer"
                 }
             }
         },
@@ -320,6 +473,22 @@ const docTemplate = `{
                     "example": 200
                 },
                 "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
+        "response.Response-bool": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "type": "boolean"
+                },
                 "msg": {
                     "type": "string",
                     "example": "成功"
@@ -342,6 +511,22 @@ const docTemplate = `{
                 }
             }
         },
+        "response.Response-response_PageResult-response_SystemUserPageVo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "$ref": "#/definitions/response.PageResult-response_SystemUserPageVo"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
         "response.Response-response_SystemUserVo": {
             "type": "object",
             "properties": {
@@ -355,6 +540,39 @@ const docTemplate = `{
                 "msg": {
                     "type": "string",
                     "example": "成功"
+                }
+            }
+        },
+        "response.SystemUserPageVo": {
+            "type": "object",
+            "properties": {
+                "domainName": {
+                    "description": "所属域",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "description": "是否为管理员",
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态",
+                    "type": "integer"
+                },
+                "userId": {
+                    "description": "用户id",
+                    "type": "integer"
                 }
             }
         },

@@ -23,12 +23,12 @@ export default [
     component: './Dashboard',
   },
 
-  // {
-  //   path: '/userManage',
-  //   name: 'userManage',
-  //   icon: 'user',
-  //   component: './UserManage',
-  // },
+  {
+    path: '/userManage',
+    name: 'userManage',
+    icon: 'user',
+    component: './UserManage',
+  },
   // {
   //   path: '/roleManage',
   //   name: 'roleManage',
@@ -54,33 +54,29 @@ export default [
   //     },
   //   ],
   // },
-  // {
-  //   path: '/organization',
-  //   name: 'orgManage',
-  //   icon: 'cluster',
-  //   routes: [
-  //     {
-  //       path: '/organization/kanban',
-  //       name: 'kanban',
-  //       component: './organization/Kanban',
-  //     },
-  //     {
-  //       path: '/organization/domain',
-  //       name: 'domainManage',
-  //       component: './organization/DomainManage',
-  //     },
-  //     {
-  //       path: '/organization/department',
-  //       name: 'departmentManage',
-  //       component: './organization/DepartmentManage',
-  //     },
-  //     {
-  //       path: '/organization/group',
-  //       name: 'groupManage',
-  //       component: './organization/GroupManage',
-  //     },
-  //   ],
-  // },
+  {
+    path: '/organization',
+    name: 'orgManage',
+    icon: 'cluster',
+    routes: [
+
+      // {
+      //   path: '/organization/domain',
+      //   name: 'domainManage',
+      //   component: './organization/DomainManage',
+      // },
+      // {
+      //   path: '/organization/department',
+      //   name: 'departmentManage',
+      //   component: './organization/DepartmentManage',
+      // },
+      // {
+      //   path: '/organization/group',
+      //   name: 'groupManage',
+      //   component: './organization/GroupManage',
+      // },
+    ],
+  },
   // {
   //   path: '/authorization',
   //   name: 'authorization',

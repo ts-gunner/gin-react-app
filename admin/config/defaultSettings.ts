@@ -1,3 +1,4 @@
+import { SETTING_CONFIG } from '../src/constants/config';
 import { ProLayoutProps } from '@ant-design/pro-components';
 /**
  * @name
@@ -14,9 +15,9 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '文基智能',
+  title: SETTING_CONFIG.NAVBAR_TITLE,
   pwa: true,
-  logo: '/aiadmin/icons/logo.png',
+  logo: SETTING_CONFIG.LOGO,
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式

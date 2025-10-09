@@ -1,4 +1,28 @@
 definitions:
+  request.AddSystemUserRequest:
+    properties:
+      domain_id:
+        description: 域id
+        type: integer
+      is_admin:
+        description: 是否为管理员
+        type: boolean
+      nickname:
+        description: 昵称
+        type: string
+      password:
+        description: 密码
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - domain_id
+    - is_admin
+    - nickname
+    - password
+    - username
+    type: object
   request.DBConnectionRequest:
     properties:
       dbType:
@@ -67,10 +91,48 @@ definitions:
     - password
     - username
     type: object
+  request.SystemUserPageRequest:
+    properties:
+      account:
+        description: 账户名称
+        type: string
+      current:
+        description: 当前页
+        type: integer
+      is_admin:
+        description: 是否管理员
+        type: boolean
+      nickname:
+        description: 昵称
+        type: string
+      pageSize:
+        description: 页数据量
+        type: integer
+      status:
+        description: 账号状态
+        type: integer
+    type: object
   response.CheckResult:
     properties:
       result:
         type: boolean
+    type: object
+  response.PageResult-response_SystemUserPageVo:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      pageSize:
+        description: 每页条数
+        type: integer
+      records:
+        description: 数据列表
+        items:
+          $ref: '#/definitions/response.SystemUserPageVo'
+        type: array
+      total:
+        description: 总记录数
+        type: integer
     type: object
   response.Response-any:
     properties:
@@ -78,6 +140,17 @@ definitions:
         example: 200
         type: integer
       data: {}
+      msg:
+        example: 成功
+        type: string
+    type: object
+  response.Response-bool:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        type: boolean
       msg:
         example: 成功
         type: string
@@ -93,6 +166,17 @@ definitions:
         example: 成功
         type: string
     type: object
+  response.Response-response_PageResult-response_SystemUserPageVo:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/response.PageResult-response_SystemUserPageVo'
+      msg:
+        example: 成功
+        type: string
+    type: object
   response.Response-response_SystemUserVo:
     properties:
       code:
@@ -103,6 +187,30 @@ definitions:
       msg:
         example: 成功
         type: string
+    type: object
+  response.SystemUserPageVo:
+    properties:
+      domainName:
+        description: 所属域
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      isAdmin:
+        description: 是否为管理员
+        type: boolean
+      nickname:
+        description: 昵称
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      status:
+        description: 状态
+        type: integer
+      userId:
+        description: 用户id
+        type: integer
     type: object
   response.SystemUserVo:
     properties:
@@ -243,6 +351,28 @@ paths:
       summary: 测试数据库是否能够连接
       tags:
       - initController
+  /user/add:
+    post:
+      consumes:
+      - application/json
+      operationId: addSystemUser
+      parameters:
+      - description: 添加用户请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AddSystemUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 添加用户信息
+      tags:
+      - systemUserController
   /user/get_info:
     get:
       consumes:
@@ -256,6 +386,28 @@ paths:
           schema:
             $ref: '#/definitions/response.Response-response_SystemUserVo'
       summary: 获取登录用户信息
+      tags:
+      - systemUserController
+  /user/get_page:
+    post:
+      consumes:
+      - application/json
+      operationId: getSystemUserPageData
+      parameters:
+      - description: 获取用户页数据请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.SystemUserPageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-response_PageResult-response_SystemUserPageVo'
+      summary: 添加用户信息
       tags:
       - systemUserController
 swagger: "2.0"

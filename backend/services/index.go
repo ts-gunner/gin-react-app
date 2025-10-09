@@ -6,4 +6,5 @@ type ServiceGroup struct {
 	InitService
 	SystemUserService
 	AuthService
+	SystemDomainService
 }

@@ -17,7 +17,7 @@ func IdentityVerification() gin.HandlerFunc {
 		if token == "" {
 			c.Abort()
 			response.FailWithCode(http.StatusUnauthorized, "身份验证失败", c)
-			//return
+			return
 		}
 		_, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 			return []byte(global.SECRET_KEY), nil
@@ -26,6 +26,7 @@ func IdentityVerification() gin.HandlerFunc {
 			global.LOGGER.Info(err.Error())
 			c.Abort()
 			response.FailWithCode(http.StatusUnauthorized, "鉴权失败", c)
+			return
 		}
 		c.Next()
 	}

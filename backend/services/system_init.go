@@ -140,14 +140,15 @@ func initTableData(ctx context.Context) error {
 		return errors.New("missing db in context")
 	}
 	userId, _ := global.SBG_ID_CREATOR.NextID()
-	newUser := schema.SystemUser{
+	newUser := &schema.SystemUser{
 		UserId:   userId,
 		Account:  adminAccount,
 		Password: utils.EncryptBySha256(adminPassword),
 		Nickname: "超级管理员",
+		IsAdmin:  true,
 	}
 
-	result := db.Create(&newUser)
+	result := db.Create(newUser)
 	if result.Error != nil {
 		return errors.New("新增管理员失败：" + result.Error.Error())
 	}
