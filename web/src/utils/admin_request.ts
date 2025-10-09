@@ -8,8 +8,9 @@ const request = extend({
   errorHandler: (error) => {
     if (!error.response) {
       toast.error("服务器连接异常")
+      throw error;
     }
-    throw error;
+    
   }
 });
 
@@ -27,6 +28,13 @@ request.interceptors.request.use((url, options) => {
 
 // 响应拦截器
 request.interceptors.response.use(async (response) => {
+  if (response.status !== 200) {
+    return {
+      code: response.status,
+      data: null,
+      msg: "服务器异常"
+    };
+  }
   const contentType = response.headers.get('Content-Type');
 
   // 处理文件下载响应
