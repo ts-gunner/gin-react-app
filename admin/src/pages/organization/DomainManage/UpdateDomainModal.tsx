@@ -26,7 +26,7 @@ export default function UpdateDomainModal({ modalOpen, handleModalOpen, onSubmit
             <ProForm.Group>
                 <ProFormText
                     width="md"
-                    name="domainName"
+                    name="domain_name"
                     label="域名"
                 ></ProFormText>
                

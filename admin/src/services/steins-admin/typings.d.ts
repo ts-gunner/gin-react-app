@@ -1,4 +1,8 @@
 declare namespace API {
+  type AddDomainRequest = {
+    domain_name: string;
+  };
+
   type AddSystemUserRequest = {
     /** 域id */
     domain_id: number;
@@ -57,8 +61,17 @@ declare namespace API {
     records?: SystemUserPageVo[];
     /** 总记录数 */
     total?: number;
-    /** 总页数 */
-    totalPage?: number;
+  };
+
+  type PageResultSchemaSystemDomain = {
+    /** 当前页 */
+    current?: number;
+    /** 每页条数 */
+    pageSize?: number;
+    /** 数据列表 */
+    records?: SystemDomain[];
+    /** 总记录数 */
+    total?: number;
   };
 
   type PwdLogin = {
@@ -68,9 +81,20 @@ declare namespace API {
     username: string;
   };
 
+  type removeDomainInfoParams = {
+    /** 域id */
+    domain_id: number;
+  };
+
   type ResponseAny = {
     code?: number;
     data?: any;
+    msg?: string;
+  };
+
+  type ResponseArraySchemaSystemDomain = {
+    code?: number;
+    data?: SystemDomain[];
     msg?: string;
   };
 
@@ -92,10 +116,32 @@ declare namespace API {
     msg?: string;
   };
 
+  type ResponseResponsePageResultSchemaSystemDomain = {
+    code?: number;
+    data?: PageResultSchemaSystemDomain;
+    msg?: string;
+  };
+
   type ResponseResponseSystemUserVo = {
     code?: number;
     data?: SystemUserVo;
     msg?: string;
+  };
+
+  type SystemDomain = {
+    create_time?: string;
+    domain_id?: number;
+    domain_name?: string;
+    is_delete?: boolean;
+    update_time?: string;
+  };
+
+  type SystemDomainPageRequest = {
+    /** 当前页 */
+    current?: number;
+    domain_name?: string;
+    /** 页数据量 */
+    pageSize?: number;
   };
 
   type SystemUserPageRequest = {
@@ -114,6 +160,10 @@ declare namespace API {
   };
 
   type SystemUserPageVo = {
+    /** 账号 */
+    account?: string;
+    /** 创建时间 */
+    createTime?: string;
     /** 所属域 */
     domainName?: string;
     /** 邮箱 */
@@ -143,5 +193,10 @@ declare namespace API {
     token?: string;
     /** 用户id */
     userId?: number;
+  };
+
+  type UpdateDomainRequest = {
+    domain_id: number;
+    domain_name: string;
   };
 }

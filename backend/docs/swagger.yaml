@@ -1,4 +1,11 @@
 definitions:
+  request.AddDomainRequest:
+    properties:
+      domain_name:
+        type: string
+    required:
+    - domain_name
+    type: object
   request.AddSystemUserRequest:
     properties:
       domain_id:
@@ -91,6 +98,17 @@ definitions:
     - password
     - username
     type: object
+  request.SystemDomainPageRequest:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      domain_name:
+        type: string
+      pageSize:
+        description: 页数据量
+        type: integer
+    type: object
   request.SystemUserPageRequest:
     properties:
       account:
@@ -111,6 +129,16 @@ definitions:
       status:
         description: 账号状态
         type: integer
+    type: object
+  request.UpdateDomainRequest:
+    properties:
+      domain_id:
+        type: integer
+      domain_name:
+        type: string
+    required:
+    - domain_id
+    - domain_name
     type: object
   response.CheckResult:
     properties:
@@ -134,12 +162,42 @@ definitions:
         description: 总记录数
         type: integer
     type: object
+  response.PageResult-schema_SystemDomain:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      pageSize:
+        description: 每页条数
+        type: integer
+      records:
+        description: 数据列表
+        items:
+          $ref: '#/definitions/schema.SystemDomain'
+        type: array
+      total:
+        description: 总记录数
+        type: integer
+    type: object
   response.Response-any:
     properties:
       code:
         example: 200
         type: integer
       data: {}
+      msg:
+        example: 成功
+        type: string
+    type: object
+  response.Response-array_schema_SystemDomain:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/schema.SystemDomain'
+        type: array
       msg:
         example: 成功
         type: string
@@ -177,6 +235,17 @@ definitions:
         example: 成功
         type: string
     type: object
+  response.Response-response_PageResult-schema_SystemDomain:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/response.PageResult-schema_SystemDomain'
+      msg:
+        example: 成功
+        type: string
+    type: object
   response.Response-response_SystemUserVo:
     properties:
       code:
@@ -190,6 +259,12 @@ definitions:
     type: object
   response.SystemUserPageVo:
     properties:
+      account:
+        description: 账号
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
       domainName:
         description: 所属域
         type: string
@@ -232,6 +307,19 @@ definitions:
       userId:
         description: 用户id
         type: integer
+    type: object
+  schema.SystemDomain:
+    properties:
+      create_time:
+        type: string
+      domain_id:
+        type: integer
+      domain_name:
+        type: string
+      is_delete:
+        type: boolean
+      update_time:
+        type: string
     type: object
 info:
   contact: {}
@@ -291,6 +379,107 @@ paths:
       summary: 用户端密码登录
       tags:
       - authController
+  /domain/add:
+    post:
+      consumes:
+      - application/json
+      operationId: addSystemDomain
+      parameters:
+      - description: 添加域请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AddDomainRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 添加域
+      tags:
+      - systemDomainController
+  /domain/get_page:
+    post:
+      consumes:
+      - application/json
+      operationId: getDomainInfoPage
+      parameters:
+      - description: 获取域的页数据请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.SystemDomainPageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-response_PageResult-schema_SystemDomain'
+      summary: 获取域的页数据
+      tags:
+      - systemDomainController
+  /domain/list_domains:
+    get:
+      consumes:
+      - application/json
+      operationId: listDomains
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-array_schema_SystemDomain'
+      summary: 获取域列表
+      tags:
+      - systemDomainController
+  /domain/remove:
+    post:
+      operationId: removeDomainInfo
+      parameters:
+      - description: 域id
+        format: int64
+        in: query
+        name: domain_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 删除域信息
+      tags:
+      - systemDomainController
+  /domain/update:
+    post:
+      consumes:
+      - application/json
+      operationId: updateDomainInfo
+      parameters:
+      - description: 更新域请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateDomainRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 更新域信息
+      tags:
+      - systemDomainController
   /init/check:
     get:
       consumes:

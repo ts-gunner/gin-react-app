@@ -60,11 +60,11 @@ export default [
     icon: 'cluster',
     routes: [
 
-      // {
-      //   path: '/organization/domain',
-      //   name: 'domainManage',
-      //   component: './organization/DomainManage',
-      // },
+      {
+        path: '/organization/domain',
+        name: 'domainManage',
+        component: './organization/DomainManage',
+      },
       // {
       //   path: '/organization/department',
       //   name: 'departmentManage',

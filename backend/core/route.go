@@ -31,6 +31,7 @@ func initRouter() *gin.Engine {
 	}
 	{
 		set.InitSystemUserRouter(authGroup)
+		set.InitSystemDomainRouter(authGroup)
 	}
 	return r
 }

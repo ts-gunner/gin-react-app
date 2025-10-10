@@ -95,6 +95,161 @@ const docTemplate = `{
                 }
             }
         },
+        "/domain/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "添加域",
+                "operationId": "addSystemDomain",
+                "parameters": [
+                    {
+                        "description": "添加域请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AddDomainRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/get_page": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "获取域的页数据",
+                "operationId": "getDomainInfoPage",
+                "parameters": [
+                    {
+                        "description": "获取域的页数据请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.SystemDomainPageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_PageResult-schema_SystemDomain"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/list_domains": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "获取域列表",
+                "operationId": "listDomains",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-array_schema_SystemDomain"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/remove": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "删除域信息",
+                "operationId": "removeDomainInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "域id",
+                        "name": "domain_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "更新域信息",
+                "operationId": "updateDomainInfo",
+                "parameters": [
+                    {
+                        "description": "更新域请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateDomainRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
         "/init/check": {
             "get": {
                 "consumes": [
@@ -280,6 +435,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.AddDomainRequest": {
+            "type": "object",
+            "required": [
+                "domain_name"
+            ],
+            "properties": {
+                "domain_name": {
+                    "type": "string"
+                }
+            }
+        },
         "request.AddSystemUserRequest": {
             "type": "object",
             "required": [
@@ -404,6 +570,22 @@ const docTemplate = `{
                 }
             }
         },
+        "request.SystemDomainPageRequest": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "domain_name": {
+                    "type": "string"
+                },
+                "pageSize": {
+                    "description": "页数据量",
+                    "type": "integer"
+                }
+            }
+        },
         "request.SystemUserPageRequest": {
             "type": "object",
             "properties": {
@@ -430,6 +612,21 @@ const docTemplate = `{
                 "status": {
                     "description": "账号状态",
                     "type": "integer"
+                }
+            }
+        },
+        "request.UpdateDomainRequest": {
+            "type": "object",
+            "required": [
+                "domain_id",
+                "domain_name"
+            ],
+            "properties": {
+                "domain_id": {
+                    "type": "integer"
+                },
+                "domain_name": {
+                    "type": "string"
                 }
             }
         },
@@ -465,6 +662,30 @@ const docTemplate = `{
                 }
             }
         },
+        "response.PageResult-schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页条数",
+                    "type": "integer"
+                },
+                "records": {
+                    "description": "数据列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SystemDomain"
+                    }
+                },
+                "total": {
+                    "description": "总记录数",
+                    "type": "integer"
+                }
+            }
+        },
         "response.Response-any": {
             "type": "object",
             "properties": {
@@ -473,6 +694,25 @@ const docTemplate = `{
                     "example": 200
                 },
                 "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
+        "response.Response-array_schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SystemDomain"
+                    }
+                },
                 "msg": {
                     "type": "string",
                     "example": "成功"
@@ -527,6 +767,22 @@ const docTemplate = `{
                 }
             }
         },
+        "response.Response-response_PageResult-schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "$ref": "#/definitions/response.PageResult-schema_SystemDomain"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
         "response.Response-response_SystemUserVo": {
             "type": "object",
             "properties": {
@@ -546,6 +802,14 @@ const docTemplate = `{
         "response.SystemUserPageVo": {
             "type": "object",
             "properties": {
+                "account": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "createTime": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
                 "domainName": {
                     "description": "所属域",
                     "type": "string"
@@ -602,6 +866,26 @@ const docTemplate = `{
                 "userId": {
                     "description": "用户id",
                     "type": "integer"
+                }
+            }
+        },
+        "schema.SystemDomain": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "domain_id": {
+                    "type": "integer"
+                },
+                "domain_name": {
+                    "type": "string"
+                },
+                "is_delete": {
+                    "type": "boolean"
+                },
+                "update_time": {
+                    "type": "string"
                 }
             }
         }

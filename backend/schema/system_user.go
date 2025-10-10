@@ -1,7 +1,7 @@
 package schema
 
 type SystemUser struct {
-	UserId   int64  `json:"uid" gorm:"primaryKey;column:uid;type:bigint;not null;comment:用户id"`
+	UserId   int64  `json:"uid" gorm:"primaryKey;autoIncrement:true;column:uid;type:bigint;not null;comment:用户id"`
 	Account  string `json:"account" gorm:"index:idx_user_account;column:account;not null;comment:用户账号"`
 	Password string `json:"pwd" gorm:"column:pwd;not null;comment:密码"`
 	OpenId   string `json:"open_id" gorm:"column:openid;comment:小程序唯一标识id"`

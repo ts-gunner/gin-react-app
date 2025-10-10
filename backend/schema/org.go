@@ -5,7 +5,7 @@ package schema
 */
 // 域
 type SystemDomain struct {
-	DomainId   int64  `json:"domain_id" gorm:"primaryKey;column:domain_id;type:bigint unsigned;not null;comment:域id"`
+	DomainId   int64  `json:"domain_id" gorm:"primaryKey;autoIncrement:true;column:domain_id;type:bigint unsigned;not null;comment:域id"`
 	DomainName string `json:"domain_name" gorm:"colum:domain_name;comment:域名"`
 	BaseSchema
 }

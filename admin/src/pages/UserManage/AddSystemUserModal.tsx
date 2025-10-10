@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModalForm, ProFormText, ProForm, ProFormSelect, ProFormDigit } from '@ant-design/pro-components';
+import { listDomains } from '@/services/steins-admin/systemDomainController';
 // import { listDomainInfo } from '@/services/steins-admin/systemDomainController';
 type ModalProps = {
   modalOpen: boolean;
@@ -40,14 +41,12 @@ export default function AddSystemUserModal({ modalOpen, handleModalOpen, onSubmi
               width="md"
               name="domainId"
               request={async () => {
-                // const resp = await listDomainInfo({});
-                const resp = {
-                  data: []
-                }
+                const resp = await listDomains({});
+           
                 return (
                   resp.data?.map((it) => ({
-                    label: it.domainName,
-                    value: it.domainId,
+                    label: it.domain_name,
+                    value: it.domain_id,
                   })) || []
                 );
               }}
@@ -102,19 +101,6 @@ export default function AddSystemUserModal({ modalOpen, handleModalOpen, onSubmi
             />
           </ProForm.Group>
 
-          <ProForm.Group>
-            <ProFormDigit
-              width="md"
-              name="safeLevel"
-              label="安全等级"
-              tooltip=""
-              placeholder="请输入安全等级"
-              rules={requireRules}
-              max={100}
-              min={0}
-
-            ></ProFormDigit>
-          </ProForm.Group>
         </div>
       </div>
     </ModalForm>

@@ -3,7 +3,7 @@ import { PageContainer, ProTable, ProColumns } from '@ant-design/pro-components'
 import type { ActionType } from '@ant-design/pro-components';
 import { Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { addDomainInfo, getDomainInfoPage, updateDomainInfo } from '@/services/steins-admin/systemDomainController';
+import { addSystemDomain, getDomainInfoPage, removeDomainInfo, updateDomainInfo } from '@/services/steins-admin/systemDomainController';
 import UpdateDomainModal from './UpdateDomainModal';
 import AddDomainModal from './AddDomainModal';
 
@@ -15,9 +15,9 @@ export default function DomainManage() {
     const [currentData, setCurrentData] = useState<API.SystemDomain>({})
     const columns: ProColumns<API.SystemDomain>[] = [
         {
-            key: "domainName",
+            key: "domain_name",
             title: '域名',
-            dataIndex: 'domainName',
+            dataIndex: 'domain_name',
             align: "center",
         },
         {
@@ -29,7 +29,7 @@ export default function DomainManage() {
             width: 150,
             fixed: "right",
             render: (_, record) => (
-                <div>
+                <div className='flex items-center gap-3 justify-center'>
                     <a
                         key="change-data"
                         onClick={() => {
@@ -39,13 +39,27 @@ export default function DomainManage() {
                     >
                         修改
                     </a>
+                    <a
+                        key="change-data"
+                        onClick={async () => {
+                            const resp = await removeDomainInfo({
+                                domain_id: record.domain_id
+                            })
+                            if (resp.code === 200) {
+                                message.success("删除成功！")
+                            }
+                            actionRef.current?.reload()
+                        }}
+                    >
+                        删除
+                    </a>
                 </div>
             )
         }
     ]
     return (
         <PageContainer>
-            <ProTable<API.SystemDomain, API.GetDomainPageRequest>
+            <ProTable<API.SystemDomain, API.SystemDomainPageRequest>
                 headerTitle='域列表'
                 actionRef={actionRef}
                 rowKey="domainId"
@@ -54,7 +68,7 @@ export default function DomainManage() {
                 }}
                 pagination={{
                     pageSize: pageSize, // 默认每页显示数量
-                    pageSizeOptions: ['10', '20', '50', '100'], // 可选的每页显示数量
+                    pageSizeOptions: ['5', '10', '20', '50', '100'], // 可选的每页显示数量
                     showSizeChanger: true, // 显示分页大小选择器
                     onShowSizeChange: (current, size) => {
                         setPageSize(size)
@@ -75,9 +89,9 @@ export default function DomainManage() {
                 request={
                     async (params) => {
                         const response = await getDomainInfoPage({
-                            currentPage: params.current,
+                            current: params.current,
                             pageSize: params.pageSize,
-                            domainName: params.domainName
+                            domain_name: params.domain_name
                         })
                         return {
                             data: response.data?.records,
@@ -94,8 +108,8 @@ export default function DomainManage() {
                 modalOpen={addDomainModalOpen}
                 handleModalOpen={handleAddDomainModalOpen}
                 onSubmit={async (values: any) => {
-                    const resp = await addDomainInfo({
-                        domainName: values.domainName
+                    const resp = await addSystemDomain({
+                        domain_name: values.domain_name
                     })
                     if (resp.code === 200) {
                         message.success("添加成功！")
@@ -111,8 +125,8 @@ export default function DomainManage() {
                 values={currentData}
                 onSubmit={async (values: any) => {
                     const resp = await updateDomainInfo({
-                        domainId: currentData.domainId,
-                        domainName: values.domainName
+                        domain_id: currentData.domain_id,
+                        domain_name: values.domain_name
                     })
                     if (resp.code === 200) {
                         message.success("修改成功")
