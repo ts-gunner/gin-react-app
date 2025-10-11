@@ -201,7 +201,7 @@ const docTemplate = `{
                         "type": "integer",
                         "format": "int64",
                         "description": "域id",
-                        "name": "domain_id",
+                        "name": "domainId",
                         "in": "query",
                         "required": true
                     }
@@ -432,16 +432,117 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/remove": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "删除用户信息",
+                "operationId": "removeSystemUserInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "用户id",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/reset_pwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "重置用户密码",
+                "operationId": "resetUserPassword",
+                "parameters": [
+                    {
+                        "description": "重置密码参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ResetUserPwdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "更新用户信息",
+                "operationId": "updateSystemUserInfo",
+                "parameters": [
+                    {
+                        "description": "更新用户数据请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateSystemUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "request.AddDomainRequest": {
             "type": "object",
             "required": [
-                "domain_name"
+                "domainName"
             ],
             "properties": {
-                "domain_name": {
+                "domainName": {
                     "type": "string"
                 }
             }
@@ -449,18 +550,18 @@ const docTemplate = `{
         "request.AddSystemUserRequest": {
             "type": "object",
             "required": [
-                "domain_id",
-                "is_admin",
+                "domainId",
+                "isAdmin",
                 "nickname",
                 "password",
                 "username"
             ],
             "properties": {
-                "domain_id": {
+                "domainId": {
                     "description": "域id",
                     "type": "integer"
                 },
-                "is_admin": {
+                "isAdmin": {
                     "description": "是否为管理员",
                     "type": "boolean"
                 },
@@ -570,6 +671,21 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ResetUserPwdRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "userId"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
         "request.SystemDomainPageRequest": {
             "type": "object",
             "properties": {
@@ -577,7 +693,7 @@ const docTemplate = `{
                     "description": "当前页",
                     "type": "integer"
                 },
-                "domain_name": {
+                "domainName": {
                     "type": "string"
                 },
                 "pageSize": {
@@ -597,7 +713,7 @@ const docTemplate = `{
                     "description": "当前页",
                     "type": "integer"
                 },
-                "is_admin": {
+                "isAdmin": {
                     "description": "是否管理员",
                     "type": "boolean"
                 },
@@ -618,15 +734,44 @@ const docTemplate = `{
         "request.UpdateDomainRequest": {
             "type": "object",
             "required": [
-                "domain_id",
-                "domain_name"
+                "domainId",
+                "domainName"
             ],
             "properties": {
-                "domain_id": {
+                "domainId": {
                     "type": "integer"
                 },
-                "domain_name": {
+                "domainName": {
                     "type": "string"
+                }
+            }
+        },
+        "request.UpdateSystemUserRequest": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
@@ -872,19 +1017,19 @@ const docTemplate = `{
         "schema.SystemDomain": {
             "type": "object",
             "properties": {
-                "create_time": {
+                "createTime": {
                     "type": "string"
                 },
-                "domain_id": {
+                "domainId": {
                     "type": "integer"
                 },
-                "domain_name": {
+                "domainName": {
                     "type": "string"
                 },
-                "is_delete": {
+                "isDelete": {
                     "type": "boolean"
                 },
-                "update_time": {
+                "updateTime": {
                     "type": "string"
                 }
             }

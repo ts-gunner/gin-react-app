@@ -15,9 +15,9 @@ export default function DomainManage() {
     const [currentData, setCurrentData] = useState<API.SystemDomain>({})
     const columns: ProColumns<API.SystemDomain>[] = [
         {
-            key: "domain_name",
+            key: "domainName",
             title: '域名',
-            dataIndex: 'domain_name',
+            dataIndex: 'domainName',
             align: "center",
         },
         {
@@ -43,7 +43,7 @@ export default function DomainManage() {
                         key="change-data"
                         onClick={async () => {
                             const resp = await removeDomainInfo({
-                                domain_id: record.domain_id
+                                domainId: record.domainId
                             })
                             if (resp.code === 200) {
                                 message.success("删除成功！")
@@ -91,7 +91,7 @@ export default function DomainManage() {
                         const response = await getDomainInfoPage({
                             current: params.current,
                             pageSize: params.pageSize,
-                            domain_name: params.domain_name
+                            domainName: params.domainName
                         })
                         return {
                             data: response.data?.records,
@@ -109,7 +109,7 @@ export default function DomainManage() {
                 handleModalOpen={handleAddDomainModalOpen}
                 onSubmit={async (values: any) => {
                     const resp = await addSystemDomain({
-                        domain_name: values.domain_name
+                        domainName: values.domainName
                     })
                     if (resp.code === 200) {
                         message.success("添加成功！")
@@ -125,8 +125,8 @@ export default function DomainManage() {
                 values={currentData}
                 onSubmit={async (values: any) => {
                     const resp = await updateDomainInfo({
-                        domain_id: currentData.domain_id,
-                        domain_name: values.domain_name
+                        domainId: currentData.domainId,
+                        domainName: values.domainName
                     })
                     if (resp.code === 200) {
                         message.success("修改成功")

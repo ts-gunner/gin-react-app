@@ -114,8 +114,6 @@ export const errorConfig: RequestConfig = {
         message.error(msg)
         localStorage.removeItem("token")
         history.push("/login")
-      }else {
-        message.error(msg)
       }
       return response;
     },

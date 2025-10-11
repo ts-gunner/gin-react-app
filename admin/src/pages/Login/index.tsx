@@ -116,6 +116,9 @@ const Login: React.FC = () => {
       history.push("/")
 
     }
+    else {
+      message.error(response.msg)
+    }
     return
 
 

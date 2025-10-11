@@ -39,3 +39,48 @@ export async function getSystemUserPageData(
     ...(options || {}),
   });
 }
+
+/** 删除用户信息 POST /user/remove */
+export async function removeSystemUserInfo(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.removeSystemUserInfoParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.ResponseBool>('/user/remove', {
+    method: 'POST',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 重置用户密码 POST /user/reset_pwd */
+export async function resetUserPassword(
+  body: API.ResetUserPwdRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.ResponseBool>('/user/reset_pwd', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 更新用户信息 POST /user/update */
+export async function updateSystemUserInfo(
+  body: API.UpdateSystemUserRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.ResponseBool>('/user/update', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

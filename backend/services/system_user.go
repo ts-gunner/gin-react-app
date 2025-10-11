@@ -15,7 +15,23 @@ func (s *SystemUserService) GetSystemUserByUsername(username string) *schema.Sys
 
 	var systemUser schema.SystemUser
 
-	global.SBG_DB.Where("account = ?", username).Where("is_delete = 0").First(&systemUser)
+	result := global.SBG_DB.Where("account = ?", username).Where("is_delete = 0").First(&systemUser)
+	if result.Error != nil {
+		return nil
+	}
+
+	return &systemUser
+}
+
+// 根据用户名获取用户对象
+func (s *SystemUserService) GetSystemUserById(userId int64) *schema.SystemUser {
+
+	var systemUser schema.SystemUser
+
+	result := global.SBG_DB.Where("uid = ?", userId).Where("is_delete = 0").First(&systemUser)
+	if result.Error != nil {
+		return nil
+	}
 
 	return &systemUser
 }
@@ -24,10 +40,35 @@ func (s *SystemUserService) GetSystemUserByUsername(username string) *schema.Sys
 func (s *SystemUserService) SaveSystemUser(user *schema.SystemUser) error {
 	tx := global.SBG_DB.Begin()
 
-	tx.Save(user)
+	if err := tx.Save(user).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
 
-	tx.Commit()
+	if err := tx.Commit().Error; err != nil {
+		return err
+	}
 
+	return nil
+}
+
+// 删除用户
+func (s *SystemUserService) DeleteSystemUser(userId int64) error {
+	tx := global.SBG_DB.Begin()
+
+	if err := tx.Model(&schema.SystemUser{}).Where("uid = ?", userId).Update("is_delete", 1).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// 将user -domain映射清理
+	if err := tx.Model(&schema.UserDomain{}).Where("user_id = ?", userId).Update("is_delete", 1).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := tx.Commit().Error; err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -35,6 +76,7 @@ func (s *SystemUserService) SaveSystemUser(user *schema.SystemUser) error {
 func (s *SystemUserService) GetSystemUserPageData(req request.SystemUserPageRequest) (*response.PageResult[schema.SystemUser], error) {
 
 	tx := global.SBG_DB.Where("is_delete = 0")
+	
 	if req.Account != nil && *req.Account != "" {
 		tx = tx.Where("account like ?", "%"+*req.Account+"%")
 	}

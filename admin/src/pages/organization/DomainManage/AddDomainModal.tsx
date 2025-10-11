@@ -31,7 +31,7 @@ export default function AddDomainModal({ modalOpen, handleModalOpen, onSubmit }:
                     <ProForm.Group>
                         <ProFormText
                             width="md"
-                            name="domain_name"
+                            name="domainName"
                             label="域名"
                             tooltip=""
                             placeholder="请输入域名称"

@@ -29,6 +29,7 @@ func RegisterTables() {
 	err := db.AutoMigrate(
 		schema.SystemUser{},
 		schema.SystemDomain{},
+		schema.UserDomain{},
 	)
 	if err != nil {
 		fmt.Println("migrate database tables failed:", err)

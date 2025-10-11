@@ -1,17 +1,17 @@
 definitions:
   request.AddDomainRequest:
     properties:
-      domain_name:
+      domainName:
         type: string
     required:
-    - domain_name
+    - domainName
     type: object
   request.AddSystemUserRequest:
     properties:
-      domain_id:
+      domainId:
         description: 域id
         type: integer
-      is_admin:
+      isAdmin:
         description: 是否为管理员
         type: boolean
       nickname:
@@ -24,8 +24,8 @@ definitions:
         description: 用户名
         type: string
     required:
-    - domain_id
-    - is_admin
+    - domainId
+    - isAdmin
     - nickname
     - password
     - username
@@ -98,12 +98,22 @@ definitions:
     - password
     - username
     type: object
+  request.ResetUserPwdRequest:
+    properties:
+      password:
+        type: string
+      userId:
+        type: integer
+    required:
+    - password
+    - userId
+    type: object
   request.SystemDomainPageRequest:
     properties:
       current:
         description: 当前页
         type: integer
-      domain_name:
+      domainName:
         type: string
       pageSize:
         description: 页数据量
@@ -117,7 +127,7 @@ definitions:
       current:
         description: 当前页
         type: integer
-      is_admin:
+      isAdmin:
         description: 是否管理员
         type: boolean
       nickname:
@@ -132,13 +142,32 @@ definitions:
     type: object
   request.UpdateDomainRequest:
     properties:
-      domain_id:
+      domainId:
         type: integer
-      domain_name:
+      domainName:
         type: string
     required:
-    - domain_id
-    - domain_name
+    - domainId
+    - domainName
+    type: object
+  request.UpdateSystemUserRequest:
+    properties:
+      account:
+        type: string
+      email:
+        type: string
+      isAdmin:
+        type: boolean
+      nickname:
+        type: string
+      phone:
+        type: string
+      status:
+        type: integer
+      userId:
+        type: integer
+    required:
+    - userId
     type: object
   response.CheckResult:
     properties:
@@ -310,15 +339,15 @@ definitions:
     type: object
   schema.SystemDomain:
     properties:
-      create_time:
+      createTime:
         type: string
-      domain_id:
+      domainId:
         type: integer
-      domain_name:
+      domainName:
         type: string
-      is_delete:
+      isDelete:
         type: boolean
-      update_time:
+      updateTime:
         type: string
     type: object
 info:
@@ -445,7 +474,7 @@ paths:
       - description: 域id
         format: int64
         in: query
-        name: domain_id
+        name: domainId
         required: true
         type: integer
       produces:
@@ -597,6 +626,72 @@ paths:
           schema:
             $ref: '#/definitions/response.Response-response_PageResult-response_SystemUserPageVo'
       summary: 添加用户信息
+      tags:
+      - systemUserController
+  /user/remove:
+    post:
+      consumes:
+      - application/json
+      operationId: removeSystemUserInfo
+      parameters:
+      - description: 用户id
+        format: int64
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 删除用户信息
+      tags:
+      - systemUserController
+  /user/reset_pwd:
+    post:
+      consumes:
+      - application/json
+      operationId: resetUserPassword
+      parameters:
+      - description: 重置密码参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.ResetUserPwdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 重置用户密码
+      tags:
+      - systemUserController
+  /user/update:
+    post:
+      consumes:
+      - application/json
+      operationId: updateSystemUserInfo
+      parameters:
+      - description: 更新用户数据请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateSystemUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 更新用户信息
       tags:
       - systemUserController
 swagger: "2.0"

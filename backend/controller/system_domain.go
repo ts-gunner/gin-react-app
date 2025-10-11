@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ts-gunner/steins-backend-go/global"
 	"github.com/ts-gunner/steins-backend-go/model/request"
@@ -130,16 +132,22 @@ func (s *SystemDomainHandler) UpdateDomainInfo(c *gin.Context) {
 // @Summary 删除域信息
 // @Description
 // @Produce json
-// @Param domain_id query int64 true "域id"
+// @Param domainId query int64 true "域id"
 // @Success 200 {object} response.Response[bool]
 func (s *SystemDomainHandler) RemoveDomainInfo(c *gin.Context) {
-	domain_id := c.Query("domain_id")
-	if domain_id == "" {
-		global.LOGGER.Error("参数校验异常", zap.Any("domain_id", domain_id))
+	domainId := c.Query("domainId")
+	if domainId == "" {
+		global.LOGGER.Error("参数校验异常", zap.Any("domain_id", domainId))
 		response.Fail("参数校验异常", c)
 		return
 	}
-	if err := domainService.RemoveDomain(domain_id); err != nil {
+	newDomainId, err := strconv.ParseInt(domainId, 10, 64)
+	if err != nil {
+		global.LOGGER.Error("强转int64失败:"+err.Error(), zap.String("domainId", domainId))
+		response.Fail("删除域失败!", c)
+		return
+	}
+	if err := domainService.RemoveDomain(newDomainId); err != nil {
 		global.LOGGER.Error("删除域失败:" + err.Error())
 		response.Fail("删除域失败!", c)
 		return

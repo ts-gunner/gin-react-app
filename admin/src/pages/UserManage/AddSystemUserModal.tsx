@@ -45,8 +45,8 @@ export default function AddSystemUserModal({ modalOpen, handleModalOpen, onSubmi
            
                 return (
                   resp.data?.map((it) => ({
-                    label: it.domain_name,
-                    value: it.domain_id,
+                    label: it.domainName,
+                    value: it.domainId,
                   })) || []
                 );
               }}
