@@ -2,9 +2,12 @@ package schema
 
 import (
 	"time"
+
+	gormadapter "github.com/casbin/gorm-adapter/v3"
 )
 
 var DBTables = []interface{}{
+	gormadapter.CasbinRule{}, // casbin的规则表
 	SystemUser{},
 	SystemDomain{},
 	UserDomain{},

@@ -32,18 +32,27 @@
 ## go依赖
 
 
-| package |            origin            |   remark    |
-|:-------:|:----------------------------:|:-----------:|
-|   gin   |   github.com/gin-gonic/gin   |  go web框架   |
-|  viper  |    github.com/spf13/viper    | 读取配置文件，支持监听 |
-|   zap   |       go.uber.org/zap        |    日志框架     |
-| copier  |   github.com/jinzhu/copier   |   对象复制    |
-|   jwt   | github.com/golang-jwt/jwt/v5 |     鉴权      |
+|  package   |            origin            |   remark    |
+|:----------:|:----------------------------:|:-----------:|
+|    gin     |   github.com/gin-gonic/gin   |  go web框架   |
+|   viper    |    github.com/spf13/viper    | 读取配置文件，支持监听 |
+|    zap     |       go.uber.org/zap        |    日志框架     |
+|   copier   |   github.com/jinzhu/copier   |    对象复制     |
+|    jwt     | github.com/golang-jwt/jwt/v5 |     鉴权      |
+|   casbin   | github.com/casbin/casbin/v2  |    权限校验     |
+| gorm-adapter | github.com/casbin/gorm-adapter/v3 |  权限校验的适配器   |
+| go-swagger | github.com/swaggo/gin-swagger |    api文档    |
 
 
 ## 生成swagger文档
 
+安装cmd命令
 `go install github.com/swaggo/swag/cmd/swag@latest`
+
+安装sawagger:
+- `$ go get -u -v github.com/swaggo/gin-swagger`
+- `$ go get -u -v github.com/swaggo/files`
+- `$ go get -u -v github.com/alecthomas/template`
 
 `swag init`
 
