@@ -29,6 +29,11 @@ export default [
     icon: 'user',
     component: './UserManage',
   },
+    {
+    path: '/init',
+    component: './Init',
+    layout: false,
+  },
   // {
   //   path: '/roleManage',
   //   name: 'roleManage',

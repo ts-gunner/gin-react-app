@@ -4,7 +4,7 @@ export default {
   'menu.userManage': '用户管理',
 
   'menu.roleManage': '角色管理',
-
+  'menu.InitProject': "初始化项目",
   'menu.apiKeyManage': "密钥管理",
   'menu.CMSManage': "官网CMS",
   'menu.CMSManage.ContactInfoManage': "联系信息管理",
