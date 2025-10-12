@@ -121,10 +121,8 @@ func createTables(ctx context.Context) error {
 	if !ok {
 		return errors.New("missing db in context")
 	}
-	tables := []interface{}{
-		schema.SystemUser{},
-	}
-	if err := db.AutoMigrate(tables...); err != nil {
+
+	if err := db.AutoMigrate(schema.DBTables...); err != nil {
 		return err
 	}
 	return nil

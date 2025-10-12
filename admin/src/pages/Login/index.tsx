@@ -168,6 +168,11 @@ const Login: React.FC = () => {
           initialValues={{
             autoLogin: true,
           }}
+          submitter={{
+            submitButtonProps: {
+              disabled: isNeedInit === true
+            }
+          }}
           actions={[
             <FormattedMessage
               key="loginWith"

@@ -23,17 +23,13 @@ func Gorm() *gorm.DB {
 	}
 }
 
-func RegisterTables() {
+func RegisterTables() error {
 	db := global.SBG_DB
 
-	err := db.AutoMigrate(
-		schema.SystemUser{},
-		schema.SystemDomain{},
-		schema.UserDomain{},
-	)
+	err := db.AutoMigrate(schema.DBTables...)
 	if err != nil {
 		fmt.Println("migrate database tables failed:", err)
-		panic(err)
+		return err
 	}
-
+	return nil
 }

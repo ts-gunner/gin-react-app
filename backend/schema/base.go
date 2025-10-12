@@ -4,6 +4,12 @@ import (
 	"time"
 )
 
+var DBTables = []interface{}{
+	SystemUser{},
+	SystemDomain{},
+	UserDomain{},
+}
+
 type BaseSchema struct {
 	IsDelete   bool      `json:"isDelete" gorm:"default:0;column:is_delete"`
 	CreateTime time.Time `json:"createTime" gorm:"column:create_time;autoCreateTime:milli"`
