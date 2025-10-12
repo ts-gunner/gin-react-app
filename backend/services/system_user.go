@@ -75,7 +75,7 @@ func (s *SystemUserService) DeleteSystemUser(userId int64) error {
 // 获取用户页数据
 func (s *SystemUserService) GetSystemUserPageData(req request.SystemUserPageRequest) (*response.PageResult[response.SystemUserPageVo], error) {
 
-	tx := global.SBG_DB.Debug()
+	tx := global.SBG_DB
 	tx = tx.Table("system_user").Select(
 		"system_user.account, system_user.uid as user_id, system_user.nickname, system_user.is_admin, " +
 			"system_user.phone, system_user.email, system_user.status, system_domain.domain_name",
