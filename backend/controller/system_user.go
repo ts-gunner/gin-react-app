@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/copier"
 	"github.com/ts-gunner/steins-backend-go/global"
 	"github.com/ts-gunner/steins-backend-go/model/request"
 	"github.com/ts-gunner/steins-backend-go/model/response"
@@ -100,18 +99,8 @@ func (h *SystemUserHandler) GetSystemUserPageData(c *gin.Context) {
 		response.Fail("获取用户列表失败", c)
 		return
 	}
-	var results []response.SystemUserPageVo
-	if err := copier.Copy(&results, &pageResult.Records); err != nil {
-		global.LOGGER.Error("用户列表 - 复制失败", zap.Error(err))
-		response.Fail("获取用户列表失败", c)
-		return
-	}
 
-	var finalPageResult response.PageResult[response.SystemUserPageVo]
-	_ = copier.Copy(&finalPageResult, &pageResult)
-	finalPageResult.Records = results
-
-	response.OkWithData[response.PageResult[response.SystemUserPageVo]](finalPageResult, c)
+	response.OkWithData[response.PageResult[response.SystemUserPageVo]](*pageResult, c)
 }
 
 // @Tags systemUserController

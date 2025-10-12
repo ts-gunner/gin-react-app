@@ -73,27 +73,34 @@ func (s *SystemUserService) DeleteSystemUser(userId int64) error {
 }
 
 // 获取用户页数据
-func (s *SystemUserService) GetSystemUserPageData(req request.SystemUserPageRequest) (*response.PageResult[schema.SystemUser], error) {
+func (s *SystemUserService) GetSystemUserPageData(req request.SystemUserPageRequest) (*response.PageResult[response.SystemUserPageVo], error) {
 
-	tx := global.SBG_DB.Where("is_delete = 0")
-	
+	tx := global.SBG_DB.Debug()
+	tx = tx.Table("system_user").Select(
+		"system_user.account, system_user.uid as user_id, system_user.nickname, system_user.is_admin, " +
+			"system_user.phone, system_user.email, system_user.status, system_domain.domain_name",
+	).Joins(
+		"LEFT JOIN user_domain ON user_domain.user_id=system_user.uid AND user_domain.is_delete = 0",
+	).Joins(
+		"LEFT JOIN system_domain ON user_domain.domain_id=system_domain.domain_id AND system_domain.is_delete = 0",
+	).Where("system_user.is_delete = 0")
 	if req.Account != nil && *req.Account != "" {
-		tx = tx.Where("account like ?", "%"+*req.Account+"%")
+		tx = tx.Where("system_user.account like ?", "%"+*req.Account+"%")
 	}
 	if req.Nickname != nil && *req.Nickname != "" {
-		tx = tx.Where("nickname like ?", "%"+*req.Nickname+"%")
+		tx = tx.Where("system_user.nickname like ?", "%"+*req.Nickname+"%")
 	}
 	if req.IsAdmin != nil {
 		if *req.IsAdmin {
-			tx = tx.Where("is_admin = 1")
+			tx = tx.Where("system_user.is_admin = 1")
 		} else {
-			tx = tx.Where("is_admin = 0")
+			tx = tx.Where("system_user.is_admin = 0")
 		}
 	}
 	if req.Status != nil {
-		tx = tx.Where("status = ?", *req.Status)
+		tx = tx.Where("system_user.status = ?", *req.Status)
 	}
-	result, err := Paginate[schema.SystemUser](tx, req.Current, req.PageSize)
+	result, err := PaginateWithScan[response.SystemUserPageVo](tx, req.Current, req.PageSize)
 	if err != nil {
 		return nil, err
 	}
