@@ -9,11 +9,13 @@ type RouterGroup struct {
 	InitRouter
 	AuthRouter
 	SystemUserRouter
+	SystemDomainRouter
 }
 
 var (
-	homeHandler       = controller.AppHandler.HomeHandler
-	initHandler       = controller.AppHandler.InitHandler
-	authHandler       = controller.AppHandler.AuthHandler
-	systemUserHandler = controller.AppHandler.SystemUserHandler
+	homeHandler         = controller.AppHandler.HomeHandler
+	initHandler         = controller.AppHandler.InitHandler
+	authHandler         = controller.AppHandler.AuthHandler
+	systemUserHandler   = controller.AppHandler.SystemUserHandler
+	systemDomainHandler = controller.AppHandler.SystemDomainHandler
 )

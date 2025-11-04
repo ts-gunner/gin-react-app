@@ -95,6 +95,161 @@ const docTemplate = `{
                 }
             }
         },
+        "/domain/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "添加域",
+                "operationId": "addSystemDomain",
+                "parameters": [
+                    {
+                        "description": "添加域请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AddDomainRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/get_page": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "获取域的页数据",
+                "operationId": "getDomainInfoPage",
+                "parameters": [
+                    {
+                        "description": "获取域的页数据请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.SystemDomainPageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-response_PageResult-schema_SystemDomain"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/list_domains": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "获取域列表",
+                "operationId": "listDomains",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-array_schema_SystemDomain"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/remove": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "删除域信息",
+                "operationId": "removeDomainInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "域id",
+                        "name": "domainId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemDomainController"
+                ],
+                "summary": "更新域信息",
+                "operationId": "updateDomainInfo",
+                "parameters": [
+                    {
+                        "description": "更新域请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateDomainRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
         "/init/check": {
             "get": {
                 "consumes": [
@@ -277,24 +432,136 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/remove": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "删除用户信息",
+                "operationId": "removeSystemUserInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "用户id",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/reset_pwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "重置用户密码",
+                "operationId": "resetUserPassword",
+                "parameters": [
+                    {
+                        "description": "重置密码参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ResetUserPwdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "systemUserController"
+                ],
+                "summary": "更新用户信息",
+                "operationId": "updateSystemUserInfo",
+                "parameters": [
+                    {
+                        "description": "更新用户数据请求参数",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateSystemUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-bool"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "request.AddDomainRequest": {
+            "type": "object",
+            "required": [
+                "domainName"
+            ],
+            "properties": {
+                "domainName": {
+                    "type": "string"
+                }
+            }
+        },
         "request.AddSystemUserRequest": {
             "type": "object",
             "required": [
-                "domain_id",
-                "is_admin",
+                "domainId",
+                "isAdmin",
                 "nickname",
                 "password",
                 "username"
             ],
             "properties": {
-                "domain_id": {
+                "domainId": {
                     "description": "域id",
                     "type": "integer"
                 },
-                "is_admin": {
+                "isAdmin": {
                     "description": "是否为管理员",
                     "type": "boolean"
                 },
@@ -404,6 +671,37 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ResetUserPwdRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "userId"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.SystemDomainPageRequest": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "domainName": {
+                    "type": "string"
+                },
+                "pageSize": {
+                    "description": "页数据量",
+                    "type": "integer"
+                }
+            }
+        },
         "request.SystemUserPageRequest": {
             "type": "object",
             "properties": {
@@ -415,7 +713,7 @@ const docTemplate = `{
                     "description": "当前页",
                     "type": "integer"
                 },
-                "is_admin": {
+                "isAdmin": {
                     "description": "是否管理员",
                     "type": "boolean"
                 },
@@ -429,6 +727,50 @@ const docTemplate = `{
                 },
                 "status": {
                     "description": "账号状态",
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UpdateDomainRequest": {
+            "type": "object",
+            "required": [
+                "domainId",
+                "domainName"
+            ],
+            "properties": {
+                "domainId": {
+                    "type": "integer"
+                },
+                "domainName": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.UpdateSystemUserRequest": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "userId": {
                     "type": "integer"
                 }
             }
@@ -465,6 +807,30 @@ const docTemplate = `{
                 }
             }
         },
+        "response.PageResult-schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页条数",
+                    "type": "integer"
+                },
+                "records": {
+                    "description": "数据列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SystemDomain"
+                    }
+                },
+                "total": {
+                    "description": "总记录数",
+                    "type": "integer"
+                }
+            }
+        },
         "response.Response-any": {
             "type": "object",
             "properties": {
@@ -473,6 +839,25 @@ const docTemplate = `{
                     "example": 200
                 },
                 "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
+        "response.Response-array_schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SystemDomain"
+                    }
+                },
                 "msg": {
                     "type": "string",
                     "example": "成功"
@@ -527,6 +912,22 @@ const docTemplate = `{
                 }
             }
         },
+        "response.Response-response_PageResult-schema_SystemDomain": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {
+                    "$ref": "#/definitions/response.PageResult-schema_SystemDomain"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "成功"
+                }
+            }
+        },
         "response.Response-response_SystemUserVo": {
             "type": "object",
             "properties": {
@@ -546,6 +947,14 @@ const docTemplate = `{
         "response.SystemUserPageVo": {
             "type": "object",
             "properties": {
+                "account": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "createTime": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
                 "domainName": {
                     "description": "所属域",
                     "type": "string"
@@ -602,6 +1011,26 @@ const docTemplate = `{
                 "userId": {
                     "description": "用户id",
                     "type": "integer"
+                }
+            }
+        },
+        "schema.SystemDomain": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "domainId": {
+                    "type": "integer"
+                },
+                "domainName": {
+                    "type": "string"
+                },
+                "isDelete": {
+                    "type": "boolean"
+                },
+                "updateTime": {
+                    "type": "string"
                 }
             }
         }

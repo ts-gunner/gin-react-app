@@ -7,9 +7,10 @@ import dayjs from "dayjs";
 import {
   addSystemUser,
   getSystemUserPageData,
-  // deleteSystemUser,
-  // resetPassword,
-  // updateUserInfo,
+  removeSystemUserInfo,
+  resetUserPassword,
+  updateSystemUserInfo,
+
 } from '@/services/steins-admin/systemUserController';
 import AddSystemUserModal from './AddSystemUserModal';
 // @ts-ignore
@@ -137,12 +138,12 @@ export default function UserTable({ isAdmin }: UserTableType) {
           title="删除用户"
           description="是否确认删除该用户?"
           onConfirm={async () => {
-            // const resp = await deleteSystemUser({ userId: record.uid as string });
-            // if (resp.code === 200) {
-            //   message.success('删除成功');
-            // } else {
-            //   message.error(resp.msg);
-            // }
+            const resp = await removeSystemUserInfo({ userId: record.userId });
+            if (resp.code === 200) {
+              message.success('删除成功');
+            } else {
+              message.error(resp.msg);
+            }
             actionRef.current?.reload();
           }}
           // onCancel={cancel}
@@ -189,7 +190,7 @@ export default function UserTable({ isAdmin }: UserTableType) {
             pageSize: params.pageSize,
             account: params.account,
             nickname: params.nickname,
-            is_admin: isAdmin,
+            isAdmin: isAdmin,
             status: params.status,
           });
           return {
@@ -211,8 +212,8 @@ export default function UserTable({ isAdmin }: UserTableType) {
             username: values.account,
             password: CryptoJS.MD5(values.password).toString(),
             nickname: values.nickname,
-            is_admin: values.isAdmin,
-            domain_id: values.domainId,
+            isAdmin: values.isAdmin,
+            domainId: values.domainId,
           });
           if (resp.code === 200) {
             message.success('添加成功！');
@@ -225,16 +226,16 @@ export default function UserTable({ isAdmin }: UserTableType) {
         modalOpen={updateUserModalOpen}
         handleModalOpen={handleUpdateUserModalOpen}
         onSubmit={async (values: any) => {
-          // const resp = await updateUserInfo({
-          //   userId: currentUser.uid,
-          //   ...values,
-          // });
-          // if (resp.code === 200) {
-          //   message.success('修改成功！');
-          //   actionRef.current?.reload();
-          // } else {
-          //   message.error(resp.msg);
-          // }
+          const resp = await updateSystemUserInfo({
+            userId: currentUser.userId,
+            ...values,
+          });
+          if (resp.code === 200) {
+            message.success('修改成功！');
+            actionRef.current?.reload();
+          } else {
+            message.error(resp.msg);
+          }
           handleUpdateUserModalOpen(false);
         }}
         values={currentUser}
@@ -244,17 +245,17 @@ export default function UserTable({ isAdmin }: UserTableType) {
         handleModalOpen={handleResetPwdModalOpen}
         values={currentUser}
         onSubmit={async (values: any) => {
-          // const resp = await resetPassword({
-          //   userId: currentUser.uid as string,
-          //   password: CryptoJS.MD5(values.password).toString(),
-          // });
-          // if (resp.code === 200) {
-          //   message.success('修改成功');
-          //   actionRef.current?.reload();
-          // } else {
-          //   message.error(resp.msg);
-          // }
-          handleUpdateUserModalOpen(false);
+          const resp = await resetUserPassword({
+            userId: currentUser.userId,
+            password: CryptoJS.MD5(values.password).toString(),
+          });
+          if (resp.code === 200) {
+            message.success('修改成功');
+            actionRef.current?.reload();
+          } else {
+            message.error(resp.msg);
+          }
+          handleResetPwdModalOpen(false);
         }}
       />
     </div>

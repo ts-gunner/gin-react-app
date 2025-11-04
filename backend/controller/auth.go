@@ -45,6 +45,11 @@ func (a *AuthHandler) AdminPwdLogin(c *gin.Context) {
 		response.FailWithCode(http.StatusForbidden, "非管理员，无权限登录", c)
 		return
 	}
+	if user.Status == 0 {
+		global.LOGGER.Error(user.Nickname + " 账号已停用")
+		response.FailWithCode(http.StatusForbidden, "账号已停用", c)
+		return
+	}
 	vo, err := authService.Login(user)
 	if err != nil {
 		global.LOGGER.Error(err.Error())

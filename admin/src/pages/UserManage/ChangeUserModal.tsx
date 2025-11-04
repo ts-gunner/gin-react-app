@@ -75,15 +75,6 @@ export default function ChangeUserModal({
             ];
           }}
         />
-        <ProFormDigit
-          width="md"
-          name="safeLevel"
-          label="安全等级"
-          tooltip=""
-          placeholder="请输入安全等级"
-          max={100}
-          min={0}
-        ></ProFormDigit>
       </ProForm.Group>
     </ModalForm>
   );

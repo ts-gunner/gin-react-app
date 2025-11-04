@@ -10,14 +10,15 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
-import { Alert, message, Tabs } from 'antd';
+import { Alert, Button, message, Tabs } from 'antd';
 import Settings from '../../../config/defaultSettings';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import CryptoJS from "crypto-js";
 import { createStyles } from 'antd-style';
 import { ICONS } from '@/constants/config';
 import { adminPwdLogin } from '@/services/steins-admin/authController';
+import { checkNeedInit } from '@/services/steins-admin/initController';
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -95,9 +96,22 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState, refresh } = useModel('@@initialState');
+  const [isNeedInit, setIsNeedInit] = useState<boolean>(false)
   const { styles } = useStyles();
   const intl = useIntl();
+  useEffect(() => {
+    checkIsInit()
+  }, [])
 
+  const checkIsInit = async () => {
+    const resp = await checkNeedInit()
+    if (resp.code === 200) {
+      setIsNeedInit(resp.data.result === true)
+    } else {
+      message.error(resp.msg)
+    }
+
+  }
   const handleSubmit = async (values: API.PwdLogin) => {
     const response = await adminPwdLogin({
       username: values.username,
@@ -115,6 +129,9 @@ const Login: React.FC = () => {
       message.success("登录成功!")
       history.push("/")
 
+    }
+    else {
+      message.error(response.msg)
     }
     return
 
@@ -150,6 +167,11 @@ const Login: React.FC = () => {
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.description' })}
           initialValues={{
             autoLogin: true,
+          }}
+          submitter={{
+            submitButtonProps: {
+              disabled: isNeedInit === true
+            }
           }}
           actions={[
             <FormattedMessage
@@ -293,8 +315,17 @@ const Login: React.FC = () => {
             >
               <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
             </a>
+
+           
           </div>
+            {
+          isNeedInit && (<Button type='primary' className='my-3 w-full' size='large' onClick={() => {
+            history.push("/init")
+          }}>项目初始化</Button>)
+        }
         </LoginForm>
+       
+        
       </div>
       <Footer />
     </div>

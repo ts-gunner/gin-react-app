@@ -29,6 +29,11 @@ export default [
     icon: 'user',
     component: './UserManage',
   },
+    {
+    path: '/init',
+    component: './Init',
+    layout: false,
+  },
   // {
   //   path: '/roleManage',
   //   name: 'roleManage',
@@ -60,11 +65,11 @@ export default [
     icon: 'cluster',
     routes: [
 
-      // {
-      //   path: '/organization/domain',
-      //   name: 'domainManage',
-      //   component: './organization/DomainManage',
-      // },
+      {
+        path: '/organization/domain',
+        name: 'domainManage',
+        component: './organization/DomainManage',
+      },
       // {
       //   path: '/organization/department',
       //   name: 'departmentManage',

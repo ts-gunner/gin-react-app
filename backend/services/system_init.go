@@ -121,10 +121,8 @@ func createTables(ctx context.Context) error {
 	if !ok {
 		return errors.New("missing db in context")
 	}
-	tables := []interface{}{
-		schema.SystemUser{},
-	}
-	if err := db.AutoMigrate(tables...); err != nil {
+
+	if err := db.AutoMigrate(schema.DBTables...); err != nil {
 		return err
 	}
 	return nil
@@ -139,9 +137,7 @@ func initTableData(ctx context.Context) error {
 	if !ok {
 		return errors.New("missing db in context")
 	}
-	userId, _ := global.SBG_ID_CREATOR.NextID()
 	newUser := &schema.SystemUser{
-		UserId:   userId,
 		Account:  adminAccount,
 		Password: utils.EncryptBySha256(adminPassword),
 		Nickname: "超级管理员",

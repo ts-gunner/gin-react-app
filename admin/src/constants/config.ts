@@ -35,4 +35,5 @@ export const SETTING_CONFIG = {
   LOGO: ICONS.logo,  // 项目logo
   APP_TITLE: "控制台模板",
   NAVBAR_TITLE: "控制中心",
+  VERSION: "0.0.1"
 }

@@ -9,6 +9,7 @@ type Controller struct {
 	InitHandler
 	AuthHandler
 	SystemUserHandler
+	SystemDomainHandler
 }
 
 // 注册service

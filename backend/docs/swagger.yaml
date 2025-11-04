@@ -1,10 +1,17 @@
 definitions:
+  request.AddDomainRequest:
+    properties:
+      domainName:
+        type: string
+    required:
+    - domainName
+    type: object
   request.AddSystemUserRequest:
     properties:
-      domain_id:
+      domainId:
         description: 域id
         type: integer
-      is_admin:
+      isAdmin:
         description: 是否为管理员
         type: boolean
       nickname:
@@ -17,8 +24,8 @@ definitions:
         description: 用户名
         type: string
     required:
-    - domain_id
-    - is_admin
+    - domainId
+    - isAdmin
     - nickname
     - password
     - username
@@ -91,6 +98,27 @@ definitions:
     - password
     - username
     type: object
+  request.ResetUserPwdRequest:
+    properties:
+      password:
+        type: string
+      userId:
+        type: integer
+    required:
+    - password
+    - userId
+    type: object
+  request.SystemDomainPageRequest:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      domainName:
+        type: string
+      pageSize:
+        description: 页数据量
+        type: integer
+    type: object
   request.SystemUserPageRequest:
     properties:
       account:
@@ -99,7 +127,7 @@ definitions:
       current:
         description: 当前页
         type: integer
-      is_admin:
+      isAdmin:
         description: 是否管理员
         type: boolean
       nickname:
@@ -111,6 +139,35 @@ definitions:
       status:
         description: 账号状态
         type: integer
+    type: object
+  request.UpdateDomainRequest:
+    properties:
+      domainId:
+        type: integer
+      domainName:
+        type: string
+    required:
+    - domainId
+    - domainName
+    type: object
+  request.UpdateSystemUserRequest:
+    properties:
+      account:
+        type: string
+      email:
+        type: string
+      isAdmin:
+        type: boolean
+      nickname:
+        type: string
+      phone:
+        type: string
+      status:
+        type: integer
+      userId:
+        type: integer
+    required:
+    - userId
     type: object
   response.CheckResult:
     properties:
@@ -134,12 +191,42 @@ definitions:
         description: 总记录数
         type: integer
     type: object
+  response.PageResult-schema_SystemDomain:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      pageSize:
+        description: 每页条数
+        type: integer
+      records:
+        description: 数据列表
+        items:
+          $ref: '#/definitions/schema.SystemDomain'
+        type: array
+      total:
+        description: 总记录数
+        type: integer
+    type: object
   response.Response-any:
     properties:
       code:
         example: 200
         type: integer
       data: {}
+      msg:
+        example: 成功
+        type: string
+    type: object
+  response.Response-array_schema_SystemDomain:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/schema.SystemDomain'
+        type: array
       msg:
         example: 成功
         type: string
@@ -177,6 +264,17 @@ definitions:
         example: 成功
         type: string
     type: object
+  response.Response-response_PageResult-schema_SystemDomain:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/response.PageResult-schema_SystemDomain'
+      msg:
+        example: 成功
+        type: string
+    type: object
   response.Response-response_SystemUserVo:
     properties:
       code:
@@ -190,6 +288,12 @@ definitions:
     type: object
   response.SystemUserPageVo:
     properties:
+      account:
+        description: 账号
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
       domainName:
         description: 所属域
         type: string
@@ -232,6 +336,19 @@ definitions:
       userId:
         description: 用户id
         type: integer
+    type: object
+  schema.SystemDomain:
+    properties:
+      createTime:
+        type: string
+      domainId:
+        type: integer
+      domainName:
+        type: string
+      isDelete:
+        type: boolean
+      updateTime:
+        type: string
     type: object
 info:
   contact: {}
@@ -291,6 +408,107 @@ paths:
       summary: 用户端密码登录
       tags:
       - authController
+  /domain/add:
+    post:
+      consumes:
+      - application/json
+      operationId: addSystemDomain
+      parameters:
+      - description: 添加域请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AddDomainRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 添加域
+      tags:
+      - systemDomainController
+  /domain/get_page:
+    post:
+      consumes:
+      - application/json
+      operationId: getDomainInfoPage
+      parameters:
+      - description: 获取域的页数据请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.SystemDomainPageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-response_PageResult-schema_SystemDomain'
+      summary: 获取域的页数据
+      tags:
+      - systemDomainController
+  /domain/list_domains:
+    get:
+      consumes:
+      - application/json
+      operationId: listDomains
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-array_schema_SystemDomain'
+      summary: 获取域列表
+      tags:
+      - systemDomainController
+  /domain/remove:
+    post:
+      operationId: removeDomainInfo
+      parameters:
+      - description: 域id
+        format: int64
+        in: query
+        name: domainId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 删除域信息
+      tags:
+      - systemDomainController
+  /domain/update:
+    post:
+      consumes:
+      - application/json
+      operationId: updateDomainInfo
+      parameters:
+      - description: 更新域请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateDomainRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 更新域信息
+      tags:
+      - systemDomainController
   /init/check:
     get:
       consumes:
@@ -408,6 +626,72 @@ paths:
           schema:
             $ref: '#/definitions/response.Response-response_PageResult-response_SystemUserPageVo'
       summary: 添加用户信息
+      tags:
+      - systemUserController
+  /user/remove:
+    post:
+      consumes:
+      - application/json
+      operationId: removeSystemUserInfo
+      parameters:
+      - description: 用户id
+        format: int64
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 删除用户信息
+      tags:
+      - systemUserController
+  /user/reset_pwd:
+    post:
+      consumes:
+      - application/json
+      operationId: resetUserPassword
+      parameters:
+      - description: 重置密码参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.ResetUserPwdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 重置用户密码
+      tags:
+      - systemUserController
+  /user/update:
+    post:
+      consumes:
+      - application/json
+      operationId: updateSystemUserInfo
+      parameters:
+      - description: 更新用户数据请求参数
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateSystemUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response-bool'
+      summary: 更新用户信息
       tags:
       - systemUserController
 swagger: "2.0"
