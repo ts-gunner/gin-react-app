@@ -78,7 +78,7 @@ func (s *SystemUserService) GetSystemUserPageData(req request.SystemUserPageRequ
 	tx := global.SBG_DB
 	tx = tx.Table("system_user").Select(
 		"system_user.account, system_user.uid as user_id, system_user.nickname, system_user.is_admin, " +
-			"system_user.phone, system_user.email, system_user.status, system_domain.domain_name",
+			"system_user.phone, system_user.email, system_user.status, system_user.create_time,system_domain.domain_name",
 	).Joins(
 		"LEFT JOIN user_domain ON user_domain.user_id=system_user.uid AND user_domain.is_delete = 0",
 	).Joins(
