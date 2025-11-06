@@ -28,6 +28,5 @@ func initMysql(m config.Mysql) *gorm.DB {
 		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
 		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
 		return db
-
 	}
 }
