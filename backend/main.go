@@ -21,7 +21,10 @@ func initializeSystem() {
 	global.SBG_ID_CREATOR = core.InitIDCreator()
 	global.SBG_REDIS = core.RedisConnection()
 	if global.SBG_DB != nil {
-		core.RegisterTables() // 初始化表
+		// 初始化表
+		if err := core.RegisterTables(); err != nil {
+			panic(err)
+		}
 	}
 
 }
