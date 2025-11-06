@@ -4,7 +4,6 @@ import (
 	"time"
 
 	gormadapter "github.com/casbin/gorm-adapter/v3"
-	"gorm.io/gorm"
 )
 
 var DBTables = []interface{}{
@@ -20,13 +19,13 @@ type BaseSchema struct {
 	UpdateTime time.Time `json:"updateTime" gorm:"column:update_time;autoUpdateTime:milli"`
 }
 
-func (b *BaseSchema) BeforeCreate(tx *gorm.DB) error {
-	b.CreateTime = time.Now()
-	b.UpdateTime = time.Now()
-	return nil
-}
+// func (b *BaseSchema) BeforeCreate(tx *gorm.DB) error {
+// 	b.CreateTime = time.Now()
+// 	b.UpdateTime = time.Now()
+// 	return nil
+// }
 
-func (b *BaseSchema) BeforeUpdate(tx *gorm.DB) error {
-	b.UpdateTime = time.Now()
-	return nil
-}
+// func (b *BaseSchema) BeforeUpdate(tx *gorm.DB) error {
+// 	b.UpdateTime = time.Now()
+// 	return nil
+// }
