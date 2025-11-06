@@ -30,6 +30,7 @@ func (c *CustomZapCore) WriteSyncer() zapcore.WriteSyncer {
 		global.SBG_CONFIG.Zap.Director,
 		global.SBG_CONFIG.Zap.Level,
 		CutterWithLayout(time.DateOnly),
+		CutterWithFormat(),
 	)
 	if global.SBG_CONFIG.Zap.LogInConsole {
 		return zapcore.AddSync(zapcore.NewMultiWriteSyncer(os.Stdout, cutter))
